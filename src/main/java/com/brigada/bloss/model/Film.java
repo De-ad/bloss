@@ -13,8 +13,8 @@ import lombok.ToString;
 @ToString
 public class Film {
 
+    private Integer id;
     private String name;
     private String description;
-    private Integer id;
 
 }

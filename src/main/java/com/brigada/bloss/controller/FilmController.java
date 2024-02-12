@@ -9,11 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/films")
+@RestController("/films")
 public class FilmController {
 
     @Autowired
@@ -28,7 +26,7 @@ public class FilmController {
 
     @GetMapping("/{filmId}")
      public ResponseEntity<Object> getFilmInfo(@PathVariable Integer filmId) {
-        return filmService.getFilmInfo(filmId);
+        return ResponseEntity.ok().body(new Film(1, "Spider-Man", "pavuk"));
     }
 
     @GetMapping("/reviews/add")

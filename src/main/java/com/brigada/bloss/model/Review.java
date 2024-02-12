@@ -12,11 +12,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Review {
-    private Integer score;
-    private String text;
-    private Date date;
+
     private Integer id;
-    private Integer filmId;
     private Integer userId;
+    private Integer filmId;
+    private String text;
+    private Integer score;
+    private Date date;
     
 }
