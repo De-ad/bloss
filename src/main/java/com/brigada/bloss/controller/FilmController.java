@@ -1,29 +1,39 @@
 package com.brigada.bloss.controller;
 
 import com.brigada.bloss.model.Film;
+import com.brigada.bloss.model.Review;
+import com.brigada.bloss.services.FilmService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RestController
-@RequestMapping("/")
+@RequestMapping("/films")
 public class FilmController {
 
-    private final List<Film> films = new ArrayList<>();
+    @Autowired
+    private FilmService filmService;
 
-    public FilmController() {
-        films.add(new Film("Чевовек павук", "Фильм про чевовека павука"));
-        films.add(new Film("Женщина кошка", "Фильм про женщину кошку"));
-        films.add(new Film("Бэтмон", "Фильм про бэтмона"));
-        films.add(new Film("Супермэн", "Фильм про супермэна"));
+    public FilmController() {}
+
+    @GetMapping("/all")
+    public ResponseEntity<Object> getFilms() {
+        return filmService.getFilms();
     }
 
-    @GetMapping("/films")
-    Iterable<Film> getFilms() {
-        return films;
+    @GetMapping("/{filmId}")
+     public ResponseEntity<Object> getFilmInfo(@PathVariable Integer filmId) {
+        return filmService.getFilmInfo(filmId);
+    }
+
+    @GetMapping("/reviews/add")
+    public ResponseEntity<Object> changeStatus(@RequestBody Review review) {
+        return filmService.addReview(review);
     }
 
 

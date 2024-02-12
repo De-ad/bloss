@@ -1,6 +1,7 @@
 package com.brigada.bloss.model;
 
-import lombok.AllArgsConstructor;
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,13 +9,14 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Film {
-
-    private String name;
-    private String description;
+public class Review {
+    private Integer score;
+    private String text;
+    private Date date;
     private Integer id;
-
+    private Integer filmId;
+    private Integer userId;
+    
 }
