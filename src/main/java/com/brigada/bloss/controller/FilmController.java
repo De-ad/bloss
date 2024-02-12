@@ -1,13 +1,14 @@
 package com.brigada.bloss.controller;
 
-import com.brigada.bloss.model.Film;
-import com.brigada.bloss.model.Review;
-import com.brigada.bloss.services.FilmService;
+import com.brigada.bloss.entity.Film;
+import com.brigada.bloss.service.FilmService;
+
+import jakarta.websocket.OnClose;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,18 +24,12 @@ public class FilmController {
 
     @GetMapping()
     public ResponseEntity<Object> getFilms() {
-        return ResponseEntity.ok().body(new Film(1, "Super man", "supman"));
+        return ResponseEntity.ok().body(filmService.getFilms());
     }
 
-    @GetMapping("/{filmId}")
-    public ResponseEntity<Object> getFilmInfo(@PathVariable("filmId") Integer filmId) {
-        return ResponseEntity.ok().body(new Film(filmId, "Spider-Man", "pavuk"));
+    @PostMapping()
+    public ResponseEntity<Object> createFilm(@RequestBody Film film) {
+        return ResponseEntity.ok().body(filmService.createFilm(film));
     }
-
-    @GetMapping("/reviews/add")
-    public ResponseEntity<Object> changeStatus(@RequestBody Review review) {
-        return filmService.addReview(review);
-    }
-
 
 }
