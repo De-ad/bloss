@@ -1,3 +1,12 @@
+# TODO
+
+- REST (layers + endpoints file)
+- Security (tokens)
+- Insomnia
+- Business process model
+- Cors
+- ..?
+
 # Бизнес-логика программных систем
 
 ## Вариант №1217
