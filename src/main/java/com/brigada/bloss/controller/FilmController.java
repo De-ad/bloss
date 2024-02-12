@@ -9,9 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/films")
+@RestController
+@RequestMapping("/films")
 public class FilmController {
 
     @Autowired
@@ -19,14 +21,14 @@ public class FilmController {
 
     public FilmController() {}
 
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<Object> getFilms() {
-        return filmService.getFilms();
+        return ResponseEntity.ok().body(new Film(1, "Super man", "supman"));
     }
 
     @GetMapping("/{filmId}")
-     public ResponseEntity<Object> getFilmInfo(@PathVariable Integer filmId) {
-        return ResponseEntity.ok().body(new Film(1, "Spider-Man", "pavuk"));
+    public ResponseEntity<Object> getFilmInfo(@PathVariable("filmId") Integer filmId) {
+        return ResponseEntity.ok().body(new Film(filmId, "Spider-Man", "pavuk"));
     }
 
     @GetMapping("/reviews/add")
