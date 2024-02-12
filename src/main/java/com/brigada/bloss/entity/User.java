@@ -1,6 +1,5 @@
-package com.brigada.bloss.model;
+package com.brigada.bloss.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,13 +7,14 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Film {
-
-    private Integer id;
+public class User {
+    
+    private String id;
     private String name;
-    private String description;
-
+    private String surname;
+    private String login;
+    private String password;
+    
 }

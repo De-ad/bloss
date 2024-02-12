@@ -1,4 +1,4 @@
-package com.brigada.bloss.model;
+package com.brigada.bloss.entity;
 
 import java.util.Date;
 
