@@ -3,6 +3,8 @@ package com.brigada.bloss.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,6 +40,7 @@ public class Film {
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "targetFilm")
+    @JsonIgnore
     private List<Review> reviews;
 
     public void addReviewToFilm(Review review) {

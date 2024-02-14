@@ -2,12 +2,12 @@ package com.brigada.bloss.service;
 
 import org.springframework.http.ResponseEntity;
 
-import com.brigada.bloss.entity.Review;
+import com.brigada.bloss.listening.ReviewRequest;
 
 public interface ReviewService {
 
     public ResponseEntity<Object> getReviews();
 
-    public ResponseEntity<Object> createReview(Review review);
+    public ResponseEntity<Object> createReview(ReviewRequest review);
     
 }

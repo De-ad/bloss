@@ -3,6 +3,8 @@ package com.brigada.bloss.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,6 +37,7 @@ public class User {
     private String username;
 
     @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(name = "name", unique = false, nullable = false)
@@ -44,6 +47,7 @@ public class User {
     private String surname;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    @JsonIgnore
     private List<Review> reviews;
     
     public void addReviewToUser(Review review) {

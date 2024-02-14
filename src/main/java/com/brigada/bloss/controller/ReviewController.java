@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.brigada.bloss.entity.Review;
+import com.brigada.bloss.listening.ReviewRequest;
 import com.brigada.bloss.service.ReviewService;
 
 @RestController
@@ -23,8 +24,9 @@ public class ReviewController {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> createReview(Review review) {
-        return reviewService.createReview(review);
+    public ResponseEntity<Object> createReview(@RequestBody ReviewRequest revieRequest) {
+        System.out.println(">>>>>>>>>>>>>>>>>>" + revieRequest);
+        return reviewService.createReview(revieRequest);
     }
 
 }
