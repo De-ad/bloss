@@ -1,17 +1,15 @@
 package com.brigada.bloss.entity;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.hibernate.mapping.List;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -44,5 +42,16 @@ public class User {
 
     @Column(name = "surname", unique = false, nullable = false)
     private String surname;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    private List<Review> reviews;
+    
+    public void addReviewToUser(Review review) {
+        if (reviews == null) {
+            reviews = new ArrayList<>();
+        }
+        reviews.add(review);
+        review.setAuthor(this);
+    }
     
 }

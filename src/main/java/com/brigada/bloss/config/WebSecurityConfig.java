@@ -60,6 +60,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/films/**").authenticated()
                 .and()
+                .authorizeHttpRequests()
+                .requestMatchers("/reviews/**").authenticated()
+                .and()
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -1,31 +1,30 @@
 package com.brigada.bloss.controller;
 
-import com.brigada.bloss.entity.Film;
-import com.brigada.bloss.service.FilmService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/films")
-public class FilmController {
+import com.brigada.bloss.entity.Review;
+import com.brigada.bloss.service.ReviewService;
 
+@RestController
+@RequestMapping("/reviews")
+public class ReviewController {
+    
     @Autowired
-    private FilmService filmService;
+    private ReviewService reviewService;
 
     @GetMapping()
-    public ResponseEntity<Object> getFilms() {
-        return filmService.getFilms();
+    public ResponseEntity<Object> getReviews() {
+        return reviewService.getReviews();
     }
 
     @PostMapping()
-    public ResponseEntity<Object> createFilm(@RequestBody Film film) {
-        return filmService.createFilm(film);
+    public ResponseEntity<Object> createReview(Review review) {
+        return reviewService.createReview(review);
     }
 
 }
