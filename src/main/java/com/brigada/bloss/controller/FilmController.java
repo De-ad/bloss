@@ -3,8 +3,6 @@ package com.brigada.bloss.controller;
 import com.brigada.bloss.entity.Film;
 import com.brigada.bloss.service.FilmService;
 
-import jakarta.websocket.OnClose;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +17,6 @@ public class FilmController {
 
     @Autowired
     private FilmService filmService;
-
-    public FilmController() {}
 
     @GetMapping()
     public ResponseEntity<Object> getFilms() {
