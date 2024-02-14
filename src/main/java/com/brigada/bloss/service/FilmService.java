@@ -1,13 +1,13 @@
 package com.brigada.bloss.service;
 
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 import com.brigada.bloss.entity.Film;
 
 public interface FilmService {
     
-    public List<Film> getFilms();
+    public ResponseEntity<Object> getFilms();
 
-    public Film createFilm(Film film);
+    public ResponseEntity<Object> createFilm(Film film);
 
 }

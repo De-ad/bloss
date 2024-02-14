@@ -58,7 +58,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/enter/**").permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/films/**").permitAll().anyRequest().authenticated()
+                .requestMatchers("/films/**").authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()

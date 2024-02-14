@@ -20,7 +20,7 @@ public class FilmController {
 
     @GetMapping()
     public ResponseEntity<Object> getFilms() {
-        return ResponseEntity.ok().body(filmService.getFilms());
+        return filmService.getFilms();
     }
 
     @PostMapping()
