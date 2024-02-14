@@ -25,7 +25,6 @@ public class ReviewController {
 
     @PostMapping()
     public ResponseEntity<Object> createReview(@RequestBody ReviewRequest revieRequest) {
-        System.out.println(">>>>>>>>>>>>>>>>>>" + revieRequest);
         return reviewService.createReview(revieRequest);
     }
 

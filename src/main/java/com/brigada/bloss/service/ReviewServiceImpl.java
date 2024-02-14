@@ -56,11 +56,6 @@ public class ReviewServiceImpl implements ReviewService {
         review.setScore(reviewRequest.getScore());
 
         review = reviewRepository.save(review);
-        
-        // author.addReviewToUser(review);
-        // film.addReviewToFilm(review);
-        // userRepository.save(author);
-        // filmRepository.save(film);
 
         return ResponseEntity.status(201).body(review);
     }

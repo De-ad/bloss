@@ -3,6 +3,7 @@ package com.brigada.bloss.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -58,10 +59,19 @@ public class WebSecurityConfig {
                 .requestMatchers("/enter/**").permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/films/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/films/**").permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/reviews/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/reviews/**").authenticated()
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.PUT, "/reviews/**").authenticated()
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.DELETE, "/reviews/**").authenticated()
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.GET, "/reviews/**").permitAll()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()
