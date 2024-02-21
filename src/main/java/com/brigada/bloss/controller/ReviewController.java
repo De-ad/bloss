@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brigada.bloss.listening.ReviewRequest;
@@ -24,6 +25,11 @@ public class ReviewController {
     public ResponseEntity<Object> getReviews() {
         return reviewService.getReviews();
     }
+    
+    @GetMapping()
+    public ResponseEntity<Object> getReview(@RequestParam("id") Integer reviewId) {
+        return reviewService.getReview(reviewId);
+    }
 
     @PostMapping()
     public ResponseEntity<Object> createReview(@RequestBody ReviewRequest reviewRequest) {
@@ -36,8 +42,8 @@ public class ReviewController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<Object> deleteReview(@RequestBody ReviewRequest reviewRequest){
-        return reviewService.deleteReview(reviewRequest);
+    public ResponseEntity<Object> deleteReview(@RequestParam("id") Integer reviewId){
+        return reviewService.deleteReview(reviewId);
     }
 
 

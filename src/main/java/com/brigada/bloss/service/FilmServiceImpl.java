@@ -23,6 +23,12 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
+    public ResponseEntity<Object> getFilm(Integer filmId) {
+        Film film = filmRepository.findById(filmId).get();
+        return ResponseEntity.status(200).body(film);
+    }
+
+    @Override
     public ResponseEntity<Object> createFilm(Film film) {
         film = filmRepository.save(film);
         film.updateAverageScore();
@@ -39,10 +45,8 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public ResponseEntity<Object> deleteFilm(Film filmRequest) {
-        Optional<Film> optFilm = filmRepository.findById(filmRequest.getId());
-        Film film = optFilm.get();
-        filmRepository.delete(film);
+    public ResponseEntity<Object> deleteFilm(Integer filmId) {
+        filmRepository.deleteById(filmId);
         return ResponseEntity.status(204).body(null);
     }
 }

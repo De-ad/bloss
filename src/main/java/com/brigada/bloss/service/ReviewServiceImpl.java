@@ -36,6 +36,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public ResponseEntity<Object> getReview(Integer reviewId) {   
+        Review review = reviewRepository.findById(reviewId).get();
+        return ResponseEntity.status(200).body(review);
+    }
+
+    @Override
     public ResponseEntity<Object> createReview(ReviewRequest reviewRequest) {
         
         Optional<User> opAuthor = userRepository.findById(reviewRequest.getAuthorId());
@@ -80,15 +86,9 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ResponseEntity<Object> deleteReview(ReviewRequest reviewRequest) {
-
-        Optional<Review> optReview = reviewRepository.findById(reviewRequest.getAuthorId());
-        Review review = optReview.get();
-        reviewRepository.delete(review);
-        review.getTargetFilm().updateAverageScore();
-
+    public ResponseEntity<Object> deleteReview(Integer reviewId) {
+        reviewRepository.deleteById(reviewId);
+        reviewRepository.findById(reviewId).get().getTargetFilm().updateAverageScore();
         return ResponseEntity.status(204).body(null);
-
     }
-
 }

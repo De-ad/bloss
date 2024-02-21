@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,6 +26,11 @@ public class FilmController {
         return filmService.getFilms();
     }
 
+    @GetMapping()
+    public ResponseEntity<Object> getFilm(@RequestParam("id") Integer filmId) {
+        return filmService.getFilm(filmId);
+    }
+
     @PostMapping()
     public ResponseEntity<Object> createFilm(@RequestBody Film film) {
         return filmService.createFilm(film);
@@ -36,8 +42,8 @@ public class FilmController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<Object> deleteFilm(@RequestBody Film film) {
-        return filmService.deleteFilm(film);
+    public ResponseEntity<Object> deleteFilm(@RequestParam("id") Integer filmId) {
+        return filmService.deleteFilm(filmId);
     }
 
 }

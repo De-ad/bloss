@@ -18,7 +18,7 @@ public class EnterController {
     @Autowired
     UserService userService;
 
-    @PostMapping(value = "/register")
+    @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody User user) {
         return userService.register(user);
     }
