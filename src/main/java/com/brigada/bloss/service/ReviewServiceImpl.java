@@ -57,6 +57,7 @@ public class ReviewServiceImpl implements ReviewService {
         review.setScore(reviewRequest.getScore());
 
         review = reviewRepository.save(review);
+        review.getTargetFilm().updateAverageScore();
 
         return ResponseEntity.status(201).body(review);
     }
@@ -72,6 +73,7 @@ public class ReviewServiceImpl implements ReviewService {
         review.setScore(reviewRequest.getScore());
         // review.setStatus(Status.onreview);
         review = reviewRepository.save(review);
+        review.getTargetFilm().updateAverageScore();
 
         return ResponseEntity.status(200).body(review);
 
@@ -83,6 +85,7 @@ public class ReviewServiceImpl implements ReviewService {
         Optional<Review> optReview = reviewRepository.findById(reviewRequest.getAuthorId());
         Review review = optReview.get();
         reviewRepository.delete(review);
+        review.getTargetFilm().updateAverageScore();
 
         return ResponseEntity.status(204).body(null);
 

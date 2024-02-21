@@ -54,4 +54,16 @@ public class Film {
         review.setTargetFilm(this);
     }
 
+    public void updateAverageScore() {
+        if (reviews != null && !reviews.isEmpty()) {
+            double totalScore = 0.0;
+            for (Review review : reviews) {
+                totalScore += review.getScore();
+            }
+            averageScore = totalScore / reviews.size();
+        } else {
+            averageScore = 0.0; 
+        }
+    }
+
 }

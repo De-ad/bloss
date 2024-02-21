@@ -25,6 +25,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public ResponseEntity<Object> createFilm(Film film) {
         film = filmRepository.save(film);
+        film.updateAverageScore();
         return ResponseEntity.status(201).body(film);
     }
 
