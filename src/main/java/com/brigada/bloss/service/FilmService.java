@@ -10,4 +10,8 @@ public interface FilmService {
 
     public ResponseEntity<Object> createFilm(Film film);
 
+    public ResponseEntity<Object> editFilm(Film film);
+
+    public ResponseEntity<Object> deleteFilm(Film film);
+
 }

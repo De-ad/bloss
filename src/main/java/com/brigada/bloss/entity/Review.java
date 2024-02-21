@@ -44,5 +44,13 @@ public class Review {
 
     @Column(name = "date", nullable = false)
     private Date date = new Date();
-    
+
+    @Column(name = "status", nullable = false)
+    private Status status = Status.onreview;   
+}
+
+enum Status{
+    onreview,
+    approved, 
+    rejected
 }

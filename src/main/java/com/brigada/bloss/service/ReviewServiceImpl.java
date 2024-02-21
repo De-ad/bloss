@@ -1,5 +1,6 @@
 package com.brigada.bloss.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,6 +61,31 @@ public class ReviewServiceImpl implements ReviewService {
         return ResponseEntity.status(201).body(review);
     }
 
-    
+    @Override
+    public ResponseEntity<Object> editReview(ReviewRequest reviewRequest) {
+
+        Optional<Review> optReview = reviewRepository.findById(reviewRequest.getAuthorId());
+        Review review = optReview.get();
+
+        review.setDate(new Date());
+        review.setText(reviewRequest.getText());
+        review.setScore(reviewRequest.getScore());
+        // review.setStatus(Status.onreview);
+        review = reviewRepository.save(review);
+
+        return ResponseEntity.status(200).body(review);
+
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteReview(ReviewRequest reviewRequest) {
+
+        Optional<Review> optReview = reviewRepository.findById(reviewRequest.getAuthorId());
+        Review review = optReview.get();
+        reviewRepository.delete(review);
+
+        return ResponseEntity.status(204).body(null);
+
+    }
 
 }

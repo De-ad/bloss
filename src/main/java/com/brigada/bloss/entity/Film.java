@@ -39,6 +39,9 @@ public class Film {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "average_score", nullable = false)
+    private Double averageScore;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "targetFilm")
     @JsonIgnore
     private List<Review> reviews;

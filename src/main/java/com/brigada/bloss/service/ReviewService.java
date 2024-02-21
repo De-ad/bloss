@@ -9,5 +9,9 @@ public interface ReviewService {
     public ResponseEntity<Object> getReviews();
 
     public ResponseEntity<Object> createReview(ReviewRequest review);
+
+    public ResponseEntity<Object> editReview(ReviewRequest review);
+
+    public ResponseEntity<Object> deleteReview(ReviewRequest review);
     
 }
