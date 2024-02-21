@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,9 +26,9 @@ public class FilmController {
         return filmService.getFilms();
     }
 
-    @GetMapping()
-    public ResponseEntity<Object> getFilm(@RequestParam("id") Integer filmId) {
-        return filmService.getFilm(filmId);
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getFilm(@PathVariable Integer id) {
+        return filmService.getFilm(id);
     }
 
     @PostMapping()
@@ -41,9 +41,9 @@ public class FilmController {
         return filmService.editFilm(film);
     }
 
-    @DeleteMapping()
-    public ResponseEntity<Object> deleteFilm(@RequestParam("id") Integer filmId) {
-        return filmService.deleteFilm(filmId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteFilm(@PathVariable Integer id) {
+        return filmService.deleteFilm(id);
     }
 
 }

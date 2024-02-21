@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brigada.bloss.listening.ReviewRequest;
@@ -26,9 +26,9 @@ public class ReviewController {
         return reviewService.getReviews();
     }
     
-    @GetMapping()
-    public ResponseEntity<Object> getReview(@RequestParam("id") Integer reviewId) {
-        return reviewService.getReview(reviewId);
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getReview(@PathVariable Integer id) {
+        return reviewService.getReview(id);
     }
 
     @PostMapping()
@@ -41,9 +41,9 @@ public class ReviewController {
         return reviewService.editReview(reviewRequest);
     }
 
-    @DeleteMapping()
-    public ResponseEntity<Object> deleteReview(@RequestParam("id") Integer reviewId){
-        return reviewService.deleteReview(reviewId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteReview(@PathVariable Integer id){
+        return reviewService.deleteReview(id);
     }
 
 
