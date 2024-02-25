@@ -40,7 +40,7 @@ public class Film {
     private String description;
 
     @Column(name = "average_score", nullable = false)
-    private Double averageScore;
+    private Double averageScore = 0d;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "targetFilm")
     @JsonIgnore
@@ -55,15 +55,15 @@ public class Film {
     }
 
     public void updateAverageScore() {
-        if (reviews != null && !reviews.isEmpty()) {
-            double totalScore = 0.0;
-            for (Review review : reviews) {
-                totalScore += review.getScore();
-            }
-            averageScore = totalScore / reviews.size();
-        } else {
-            averageScore = 0.0; 
-        }
+        
+        if (this.reviews == null) return;
+        
+        this.averageScore = this.reviews.stream()
+                                        //  TODO .filter(review -> review.getStatus() == ReviewStatus.APPROVED)
+                                        .mapToDouble(Review::getScore)
+                                        .average()
+                                        .orElse(0d);
+
     }
 
 }

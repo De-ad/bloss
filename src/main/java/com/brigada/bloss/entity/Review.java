@@ -2,6 +2,8 @@ package com.brigada.bloss.entity;
 
 import java.util.Date;
 
+import com.brigada.bloss.entity.util.ReviewStatus;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,11 +30,11 @@ public class Review {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User author;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "film_id")
     private Film targetFilm;
 
@@ -46,11 +48,5 @@ public class Review {
     private Date date = new Date();
 
     @Column(name = "status", nullable = false)
-    private Status status = Status.onreview;   
-}
-
-enum Status{
-    onreview,
-    approved, 
-    rejected
+    private ReviewStatus status = ReviewStatus.ON_REVIEW;   
 }

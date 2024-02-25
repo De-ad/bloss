@@ -31,7 +31,6 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public ResponseEntity<Object> createFilm(Film film) {
         film = filmRepository.save(film);
-        film.updateAverageScore();
         return ResponseEntity.status(201).body(film);
     }
 
@@ -41,6 +40,7 @@ public class FilmServiceImpl implements FilmService {
         Film film = optFilm.get();
         film.setName(filmRequest.getName());
         film.setDescription(filmRequest.getDescription());
+        filmRepository.save(film);
         return ResponseEntity.status(200).body(film);
     }
 

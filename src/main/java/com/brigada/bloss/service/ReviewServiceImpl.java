@@ -14,6 +14,7 @@ import com.brigada.bloss.dao.UserRepository;
 import com.brigada.bloss.entity.Film;
 import com.brigada.bloss.entity.Review;
 import com.brigada.bloss.entity.User;
+import com.brigada.bloss.entity.util.ReviewStatus;
 import com.brigada.bloss.listening.MessageResponse;
 import com.brigada.bloss.listening.ReviewRequest;
 
@@ -63,7 +64,10 @@ public class ReviewServiceImpl implements ReviewService {
         review.setScore(reviewRequest.getScore());
 
         review = reviewRepository.save(review);
-        review.getTargetFilm().updateAverageScore();
+        
+        film = review.getTargetFilm();
+        film.updateAverageScore();
+        filmRepository.save(film);
 
         return ResponseEntity.status(201).body(review);
     }
@@ -77,9 +81,12 @@ public class ReviewServiceImpl implements ReviewService {
         review.setDate(new Date());
         review.setText(reviewRequest.getText());
         review.setScore(reviewRequest.getScore());
-        // review.setStatus(Status.onreview);
+        review.setStatus(ReviewStatus.ON_REVIEW);
         review = reviewRepository.save(review);
-        review.getTargetFilm().updateAverageScore();
+        
+        Film film = review.getTargetFilm();
+        film.updateAverageScore();
+        filmRepository.save(film);
 
         return ResponseEntity.status(200).body(review);
 
@@ -87,8 +94,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public ResponseEntity<Object> deleteReview(Integer reviewId) {
+        Integer filmId = reviewRepository.findById(reviewId).get().getTargetFilm().getId();
+        
         reviewRepository.deleteById(reviewId);
-        reviewRepository.findById(reviewId).get().getTargetFilm().updateAverageScore();
+
+        Film film = filmRepository.findById(filmId).get();
+        film.updateAverageScore();
+        filmRepository.save(film);
+
         return ResponseEntity.status(204).body(null);
     }
 }
