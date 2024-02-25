@@ -18,6 +18,10 @@ import com.brigada.bloss.entity.util.ReviewStatus;
 import com.brigada.bloss.listening.MessageResponse;
 import com.brigada.bloss.listening.ReviewRequest;
 
+// import jakarta.transaction.Transactional;
+// import jakarta.transaction.Transactional.TxType;
+
+
 @Service
 public class ReviewServiceImpl implements ReviewService {
     
@@ -43,6 +47,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    // @Transactional(TxType.REQUIRED)
     public ResponseEntity<Object> createReview(ReviewRequest reviewRequest) {
         
         Optional<User> opAuthor = userRepository.findById(reviewRequest.getAuthorId());
