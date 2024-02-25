@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.brigada.bloss.dao.FilmRepository;
 import com.brigada.bloss.entity.Film;
+import com.brigada.bloss.listening.MessageResponse;
 
 @Service
 public class FilmServiceImpl implements FilmService {
@@ -24,8 +25,11 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public ResponseEntity<Object> getFilm(Integer filmId) {
-        Film film = filmRepository.findById(filmId).get();
-        return ResponseEntity.status(200).body(film);
+        Optional<Film> optFilm = filmRepository.findById(filmId);
+        if (!optFilm.isPresent()) {
+            return ResponseEntity.status(404).body(new MessageResponse("Film with id=" + filmId + " does not exists"));
+        }
+        return ResponseEntity.status(200).body(optFilm.get());
     }
 
     @Override
@@ -37,6 +41,9 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public ResponseEntity<Object> editFilm(Film filmRequest) {
         Optional<Film> optFilm = filmRepository.findById(filmRequest.getId());
+        if (!optFilm.isPresent()) {
+            return ResponseEntity.status(404).body(new MessageResponse("Film with id=" + filmRequest.getId() + " does not exists"));
+        }
         Film film = optFilm.get();
         film.setName(filmRequest.getName());
         film.setDescription(filmRequest.getDescription());
@@ -45,8 +52,8 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public ResponseEntity<Object> deleteFilm(Integer filmId) {
-        filmRepository.deleteById(filmId);
+    public ResponseEntity<Object> deleteFilm(Integer id) {
+        filmRepository.deleteById(id);
         return ResponseEntity.status(204).body(null);
     }
 }

@@ -37,9 +37,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ResponseEntity<Object> getReview(Integer reviewId) {   
-        Review review = reviewRepository.findById(reviewId).get();
-        return ResponseEntity.status(200).body(review);
+    public ResponseEntity<Object> getReview(Integer id) {   
+        Optional<Review> optReview = reviewRepository.findById(id);
+        if (!optReview.isPresent()) {
+            return ResponseEntity.status(404).body(new MessageResponse("Review with id=" + id + " does not exists"));
+        }
+        return ResponseEntity.status(200).body(optReview.get());
     }
 
     @Override
@@ -73,14 +76,19 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ResponseEntity<Object> editReview(ReviewRequest reviewRequest) {
+    public ResponseEntity<Object> editReview(Review editedReview) {
 
-        Optional<Review> optReview = reviewRepository.findById(reviewRequest.getAuthorId());
+        Optional<Review> optReview = reviewRepository.findById(editedReview.getId());
+
+        if (!optReview.isPresent()) {
+            return ResponseEntity.status(404).body(new MessageResponse("Review with id=" + editedReview.get + " does not exists"));
+        }
+
         Review review = optReview.get();
 
         review.setDate(new Date());
-        review.setText(reviewRequest.getText());
-        review.setScore(reviewRequest.getScore());
+        review.setText(editedReview.getText());
+        review.setScore(editedReview.getScore());
         review.setStatus(ReviewStatus.ON_REVIEW);
         review = reviewRepository.save(review);
         
@@ -93,10 +101,17 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ResponseEntity<Object> deleteReview(Integer reviewId) {
-        Integer filmId = reviewRepository.findById(reviewId).get().getTargetFilm().getId();
+    public ResponseEntity<Object> deleteReview(Integer id) {
+
+        Optional<Review> optReview = reviewRepository.findById(id);
+
+        if (!optReview.isPresent()) {
+            return ResponseEntity.status(404).body(new MessageResponse("Review with id=" + id + " does not exists"));
+        }
+
+        Integer filmId = optReview.get().getTargetFilm().getId();
         
-        reviewRepository.deleteById(reviewId);
+        reviewRepository.deleteById(id);
 
         Film film = filmRepository.findById(filmId).get();
         film.updateAverageScore();

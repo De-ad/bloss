@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.brigada.bloss.entity.Review;
 import com.brigada.bloss.listening.ReviewRequest;
 import com.brigada.bloss.service.ReviewService;
 
@@ -37,8 +38,8 @@ public class ReviewController {
     }
 
     @PutMapping()
-    public ResponseEntity<Object> editReview(@RequestBody ReviewRequest reviewRequest){
-        return reviewService.editReview(reviewRequest);
+    public ResponseEntity<Object> editReview(@RequestBody Review review){
+        return reviewService.editReview(review);
     }
 
     @DeleteMapping("/{id}")
