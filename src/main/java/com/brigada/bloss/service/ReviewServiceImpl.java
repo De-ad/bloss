@@ -81,7 +81,7 @@ public class ReviewServiceImpl implements ReviewService {
         Optional<Review> optReview = reviewRepository.findById(editedReview.getId());
 
         if (!optReview.isPresent()) {
-            return ResponseEntity.status(404).body(new MessageResponse("Review with id=" + editedReview.get + " does not exists"));
+            return ResponseEntity.status(404).body(new MessageResponse("Review with id=" + editedReview.getId() + " does not exists"));
         }
 
         Review review = optReview.get();
