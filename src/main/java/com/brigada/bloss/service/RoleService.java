@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.brigada.bloss.dao.RoleRepository;
 import com.brigada.bloss.entity.Role;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoleService {
 
     @Autowired
