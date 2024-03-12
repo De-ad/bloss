@@ -1,5 +1,6 @@
 package com.brigada.bloss.controller;
 
+import com.brigada.bloss.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.brigada.bloss.entity.Review;
 import com.brigada.bloss.listening.ReviewRequest;
-import com.brigada.bloss.service.ReviewService;
 
 @RestController
 @RequestMapping("/reviews")
