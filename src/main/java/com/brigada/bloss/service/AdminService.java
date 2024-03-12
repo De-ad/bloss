@@ -13,14 +13,14 @@ import com.brigada.bloss.entity.Role;
 import com.brigada.bloss.listening.MessageResponse;
 
 @Service
-public class AdminService{
+public class AdminService {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private RoleService roleService;
-    
+
     public ResponseEntity<Object> setAdmin(String username) {
         Optional<User> optUser = userRepository.findByUsername(username);
         if (!optUser.isPresent()) {
@@ -33,5 +33,5 @@ public class AdminService{
         userRepository.save(user);
         return ResponseEntity.status(200).body(user);
     }
-    
+
 }

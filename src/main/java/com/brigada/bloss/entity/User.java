@@ -34,7 +34,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "users")
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -62,9 +62,9 @@ public class User {
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
-            )
+    )
     private Set<Role> roles = new HashSet<>();
-    
+
     public void addReviewToUser(Review review) {
         if (reviews == null) {
             reviews = new ArrayList<>();
@@ -72,5 +72,5 @@ public class User {
         reviews.add(review);
         review.setAuthor(this);
     }
-    
+
 }

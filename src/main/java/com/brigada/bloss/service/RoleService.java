@@ -7,7 +7,7 @@ import com.brigada.bloss.entity.Role;
 
 public class RoleService {
 
-    @Autowired 
+    @Autowired
     RoleRepository roleRepository;
 
     public Role getUserRole() {
@@ -17,5 +17,5 @@ public class RoleService {
     public Role getAdminRole() {
         return roleRepository.findByName("ROLE_ADMIN").orElseThrow();
     }
-    
+
 }

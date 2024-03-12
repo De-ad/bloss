@@ -12,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ReviewRequest {
-    
+
     private Integer authorId;
     private Integer filmId;
     private String text;

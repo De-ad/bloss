@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public enum ReviewStatus {
-    
+
     APPROVED("approved"),
 
     ON_REVIEW("on_review"),

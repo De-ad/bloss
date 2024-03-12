@@ -7,5 +7,5 @@ import com.brigada.bloss.entity.Review;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
-    
+
 }

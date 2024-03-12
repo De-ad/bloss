@@ -11,18 +11,18 @@ import com.brigada.bloss.entity.User;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    
+
     @Autowired
     private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository
-                                .findByUsername(username)
-                                .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with username '" + username + "'"));
-        
+                .findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with username '" + username + "'"));
+
         return UserDetailsImpl.fromUser(user);
-        
+
     }
-    
+
 }

@@ -15,7 +15,7 @@ import com.brigada.bloss.service.AdminService;
 public class AdminController {
 
     @Autowired
-    private AdminService adminService;   
+    private AdminService adminService;
 
     @PostMapping("/{username}")
     @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")

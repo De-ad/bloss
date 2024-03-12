@@ -48,5 +48,5 @@ public class Review {
     private Date date = new Date();
 
     @Column(name = "status", nullable = false)
-    private ReviewStatus status = ReviewStatus.ON_REVIEW;   
+    private ReviewStatus status = ReviewStatus.ON_REVIEW;
 }

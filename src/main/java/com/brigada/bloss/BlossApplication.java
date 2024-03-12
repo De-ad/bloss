@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BlossApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BlossApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BlossApplication.class, args);
+    }
 
 }

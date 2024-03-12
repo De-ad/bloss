@@ -55,14 +55,14 @@ public class Film {
     }
 
     public void updateAverageScore() {
-        
+
         if (this.reviews == null) return;
-        
+
         this.averageScore = this.reviews.stream()
-                                        //  TODO .filter(review -> review.getStatus() == ReviewStatus.APPROVED)
-                                        .mapToDouble(Review::getScore)
-                                        .average()
-                                        .orElse(0d);
+                //  TODO .filter(review -> review.getStatus() == ReviewStatus.APPROVED)
+                .mapToDouble(Review::getScore)
+                .average()
+                .orElse(0d);
 
     }
 

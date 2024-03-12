@@ -18,7 +18,7 @@ import com.brigada.bloss.listening.ReviewRequest;
 @RestController
 @RequestMapping("/reviews")
 public class ReviewController {
-    
+
     @Autowired
     private ReviewService reviewService;
 
@@ -26,7 +26,7 @@ public class ReviewController {
     public ResponseEntity<Object> getReviews() {
         return reviewService.getReviews();
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> getReview(@PathVariable Integer id) {
         return reviewService.getReview(id);
@@ -38,12 +38,12 @@ public class ReviewController {
     }
 
     @PutMapping()
-    public ResponseEntity<Object> editReview(@RequestBody Review review){
+    public ResponseEntity<Object> editReview(@RequestBody Review review) {
         return reviewService.editReview(review);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteReview(@PathVariable Integer id){
+    public ResponseEntity<Object> deleteReview(@PathVariable Integer id) {
         return reviewService.deleteReview(id);
     }
 

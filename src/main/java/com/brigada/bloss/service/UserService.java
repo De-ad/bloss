@@ -21,7 +21,7 @@ import com.brigada.bloss.security.JwtUtils;
 
 @Service
 public class UserService {
-    
+
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final UserRepository userRepository;
@@ -47,7 +47,7 @@ public class UserService {
 
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-            return ResponseEntity.ok().body(new CredentialsResponse(userDetails.getId(), userDetails.getUsername(), token));
+            return ResponseEntity.ok().body(new CredentialsResponse(userDetails.getUser().getId(), userDetails.getUsername(), token));
 
         } catch (BadCredentialsException exception) {
 
@@ -62,24 +62,25 @@ public class UserService {
 
     public ResponseEntity<Object> register(User user) {
         final String mainPassword = user.getPassword();
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         UserDetailsImpl userDetails = UserDetailsImpl.fromUser(user);
-        userDetails.setUsername(userDetails.getUsername());
-        userDetails.setPassword(passwordEncoder.encode(userDetails.getPassword()));
-        user.setPassword(userDetails.getPassword());
+
         user.setRoles(Set.of(roleService.getUserRole()));
 
         try {
             userRepository.save(user);
 
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                userDetails.getUsername(), mainPassword
+                    userDetails.getUsername(), mainPassword
             ));
 
             String token = jwtUtils.generateJwtToken(authentication);
 
             userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-            return ResponseEntity.ok().body(new CredentialsResponse(userDetails.getId(), userDetails.getUsername(), token));
+            return ResponseEntity.ok().body(new CredentialsResponse(userDetails.getUser().getId(), userDetails.getUsername(), token));
         } catch (DataIntegrityViolationException ex) {
             return ResponseEntity.status(403).body(new MessageResponse("User already exists"));
         } catch (Exception exception) {

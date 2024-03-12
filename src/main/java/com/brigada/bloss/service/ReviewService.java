@@ -20,7 +20,7 @@ import com.brigada.bloss.listening.ReviewRequest;
 
 @Service
 public class ReviewService {
-    
+
     @Autowired
     private ReviewRepository reviewRepository;
 
@@ -44,7 +44,7 @@ public class ReviewService {
     }
 
     public ResponseEntity<Object> createReview(ReviewRequest reviewRequest) {
-        
+
         Optional<User> opAuthor = userRepository.findById(reviewRequest.getAuthorId());
         if (!opAuthor.isPresent()) {
             return ResponseEntity.status(404).body(new MessageResponse("User with id=" + reviewRequest.getAuthorId() + " does not exists"));
@@ -64,7 +64,7 @@ public class ReviewService {
         review.setScore(reviewRequest.getScore());
 
         review = reviewRepository.save(review);
-        
+
         film = review.getTargetFilm();
         film.updateAverageScore();
         filmRepository.save(film);
@@ -87,7 +87,7 @@ public class ReviewService {
         review.setScore(editedReview.getScore());
         review.setStatus(ReviewStatus.ON_REVIEW);
         review = reviewRepository.save(review);
-        
+
         Film film = review.getTargetFilm();
         film.updateAverageScore();
         filmRepository.save(film);
@@ -105,7 +105,7 @@ public class ReviewService {
         }
 
         Integer filmId = optReview.get().getTargetFilm().getId();
-        
+
         reviewRepository.deleteById(id);
 
         Film film = filmRepository.findById(filmId).get();

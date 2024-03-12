@@ -13,5 +13,5 @@ public class CredentialsRequest {
 
     private String username;
     private String password;
-    
+
 }
