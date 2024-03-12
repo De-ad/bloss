@@ -1,5 +1,7 @@
 package com.brigada.bloss.service;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,9 @@ public class UserService {
     private final JwtUtils jwtUtils;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     public UserService(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -61,6 +66,7 @@ public class UserService {
         userDetails.setUsername(userDetails.getUsername());
         userDetails.setPassword(passwordEncoder.encode(userDetails.getPassword()));
         user.setPassword(userDetails.getPassword());
+        user.setRoles(Set.of(roleService.getUserRole()));
 
         try {
             userRepository.save(user);
