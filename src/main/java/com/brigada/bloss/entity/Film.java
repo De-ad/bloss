@@ -3,16 +3,10 @@ package com.brigada.bloss.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.brigada.bloss.entity.util.ReviewStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,7 +53,7 @@ public class Film {
         if (this.reviews == null) return;
 
         this.averageScore = this.reviews.stream()
-                //  TODO .filter(review -> review.getStatus() == ReviewStatus.APPROVED)
+                .filter(review -> review.getStatus() == ReviewStatus.APPROVED)
                 .mapToDouble(Review::getScore)
                 .average()
                 .orElse(0d);
