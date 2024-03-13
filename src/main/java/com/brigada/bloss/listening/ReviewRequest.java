@@ -13,7 +13,6 @@ import lombok.ToString;
 @ToString
 public class ReviewRequest {
 
-    private Integer authorId;
     private Integer filmId;
     private String text;
     private Integer score;
