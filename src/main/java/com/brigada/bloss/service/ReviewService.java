@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.brigada.bloss.entity.Role;
+import com.brigada.bloss.entity.util.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,9 @@ public class ReviewService {
 
     @Autowired
     private FilmRepository filmRepository;
+
+    @Autowired
+    private FilmService filmService;
 
     public ResponseEntity<Object> getRawReviews() {
         List<Review> reviews = reviewRepository.findAll();
@@ -88,7 +93,7 @@ public class ReviewService {
 
         Optional<Review> optReview = reviewRepository.findById(editedReview.getId());
 
-        if (!optReview.isPresent()) {
+        if (optReview.isEmpty()) {
             return ResponseEntity.status(404).body(new MessageResponse("Review with id=" + editedReview.getId() + " does not exists"));
         }
 
@@ -100,11 +105,9 @@ public class ReviewService {
         review.setStatus(ReviewStatus.ON_REVIEW);
         review = reviewRepository.save(review);
 
-        Film film = review.getTargetFilm();
-        film.updateAverageScore();
-        filmRepository.save(film);
+        filmService.updateAverageScore(review.getTargetFilm().getId());
 
-        return ResponseEntity.status(200).body(review);
+        return ResponseEntity.status(200).body(reviewRepository.findById(editedReview.getId()).get());
 
     }
 
@@ -113,17 +116,17 @@ public class ReviewService {
 
         Optional<Review> optReview = reviewRepository.findById(id);
 
-        if (!optReview.isPresent()) {
+        if (optReview.isEmpty()) {
             return ResponseEntity.status(404).body(new MessageResponse("Review with id=" + id + " does not exists"));
         }
 
-        Integer filmId = optReview.get().getTargetFilm().getId();
+        Review review = optReview.get();
+
+        int filmId = review.getTargetFilm().getId();
 
         reviewRepository.deleteById(id);
 
-        Film film = filmRepository.findById(filmId).get();
-        film.updateAverageScore();
-        filmRepository.save(film);
+        filmService.updateAverageScore(filmId);
 
         return ResponseEntity.status(204).body(null);
     }
@@ -140,11 +143,9 @@ public class ReviewService {
         review.setStatus(ReviewStatus.APPROVED);
         review = reviewRepository.save(review);
 
-        Film film = filmRepository.findById(review.getTargetFilm().getId()).get();
-        film.updateAverageScore();
-        filmRepository.save(film);
+        filmService.updateAverageScore(review.getTargetFilm().getId());
 
-        return ResponseEntity.status(200).body(review);
+        return ResponseEntity.status(200).body(reviewRepository.findById(id).get());
     }
 
     public ResponseEntity<Object> rejectReview(Integer id) {
@@ -162,10 +163,24 @@ public class ReviewService {
     }
 
     public boolean checkTarget(String username, Integer requestedReviewId) {
-        return reviewRepository
-                .findById(requestedReviewId)
-                .filter(review -> username.equals(review.getAuthor().getUsername()))
-                .isPresent();
+        Optional<Review> optReview = reviewRepository.findById(requestedReviewId);
+        if (optReview.isEmpty()) {
+            return false;
+        }
+        Review review = optReview.get();
+
+        if (username.equals(review.getAuthor().getUsername())) {
+            return true;
+        }
+
+        for (Role role : userRepository.findByUsername(username).get().getRoles()) {
+            if (role.getName().equals(Roles.ROLE_ADMIN.getTitle()) || role.getName().equals(Roles.ROLE_SUPER_ADMIN.getTitle())) {
+                return true;
+            }
+        }
+
+        return false;
+
     }
 
 }

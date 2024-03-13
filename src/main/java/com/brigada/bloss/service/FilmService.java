@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.brigada.bloss.dao.FilmRepository;
 import com.brigada.bloss.entity.Film;
 import com.brigada.bloss.listening.MessageResponse;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FilmService {
@@ -51,4 +53,13 @@ public class FilmService {
         filmRepository.deleteById(id);
         return ResponseEntity.status(204).body(null);
     }
+
+    @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRES_NEW)
+    public Film updateAverageScore(Integer filmId) {
+        Optional<Film> optFilm = filmRepository.findById(filmId);
+        Film film = optFilm.get();
+        film.updateAverageScore();
+        return filmRepository.save(film);
+    }
+
 }
