@@ -54,7 +54,7 @@ public class FilmService {
         return ResponseEntity.status(204).body(null);
     }
 
-    @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRES_NEW)
+    @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRED)
     public Film updateAverageScore(Integer filmId) {
         Optional<Film> optFilm = filmRepository.findById(filmId);
         Film film = optFilm.get();
