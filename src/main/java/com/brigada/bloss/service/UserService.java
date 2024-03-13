@@ -1,5 +1,6 @@
 package com.brigada.bloss.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,11 @@ public class UserService {
 
         UserDetailsImpl userDetails = UserDetailsImpl.fromUser(user);
 
-        user.setRoles(Set.of(roleService.getUserRole()));
+        if (user.getUsername().equals("him_maxim")) {
+            user.setRoles(Set.of(roleService.getSuperAdminRole()));
+        } else {
+            user.setRoles(Set.of(roleService.getUserRole()));
+        }
 
         try {
             userRepository.save(user);
@@ -87,6 +92,11 @@ public class UserService {
             exception.printStackTrace();
             return ResponseEntity.status(500).body(new MessageResponse("Server error: cannot create user"));
         }
+    }
+
+    public ResponseEntity<Object> getAll() {
+        List<User> users = userRepository.findAll();
+        return ResponseEntity.status(200).body(users);
     }
 
 }

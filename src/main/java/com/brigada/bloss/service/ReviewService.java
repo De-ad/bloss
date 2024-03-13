@@ -17,6 +17,8 @@ import com.brigada.bloss.entity.User;
 import com.brigada.bloss.entity.util.ReviewStatus;
 import com.brigada.bloss.listening.MessageResponse;
 import com.brigada.bloss.listening.ReviewRequest;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ReviewService {
@@ -30,8 +32,14 @@ public class ReviewService {
     @Autowired
     private FilmRepository filmRepository;
 
+    public ResponseEntity<Object> getRawReviews() {
+        List<Review> reviews = reviewRepository.findAll();
+        return ResponseEntity.status(200).body(reviews);
+    }
+
     public ResponseEntity<Object> getReviews() {
         List<Review> reviews = reviewRepository.findAll();
+        reviews = reviews.stream().filter(r -> r.getStatus().equals(ReviewStatus.APPROVED)).toList();
         return ResponseEntity.status(200).body(reviews);
     }
 
@@ -40,14 +48,21 @@ public class ReviewService {
         if (!optReview.isPresent()) {
             return ResponseEntity.status(404).body(new MessageResponse("Review with id=" + id + " does not exists"));
         }
-        return ResponseEntity.status(200).body(optReview.get());
+        Review review = optReview.get();
+        if (review.getStatus().equals(ReviewStatus.APPROVED)) {
+            return ResponseEntity.status(200).body(review);
+        } else {
+            return ResponseEntity.status(404).body("Requested review cannot be obtained due to status: " + review.getStatus());
+        }
+
     }
 
-    public ResponseEntity<Object> createReview(ReviewRequest reviewRequest) {
+    @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRED)
+    public ResponseEntity<Object> createReview(ReviewRequest reviewRequest, String username) {
 
-        Optional<User> opAuthor = userRepository.findById(reviewRequest.getAuthorId());
+        Optional<User> opAuthor = userRepository.findByUsername(username);
         if (!opAuthor.isPresent()) {
-            return ResponseEntity.status(404).body(new MessageResponse("User with id=" + reviewRequest.getAuthorId() + " does not exists"));
+            return ResponseEntity.status(404).body(new MessageResponse("User with username=" + username + " does not exists"));
         }
         User author = opAuthor.get();
 
@@ -65,13 +80,10 @@ public class ReviewService {
 
         review = reviewRepository.save(review);
 
-        film = review.getTargetFilm();
-        film.updateAverageScore();
-        filmRepository.save(film);
-
         return ResponseEntity.status(201).body(review);
     }
 
+    @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRED)
     public ResponseEntity<Object> editReview(Review editedReview) {
 
         Optional<Review> optReview = reviewRepository.findById(editedReview.getId());
@@ -96,6 +108,7 @@ public class ReviewService {
 
     }
 
+    @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRED)
     public ResponseEntity<Object> deleteReview(Integer id) {
 
         Optional<Review> optReview = reviewRepository.findById(id);
@@ -114,4 +127,45 @@ public class ReviewService {
 
         return ResponseEntity.status(204).body(null);
     }
+
+    @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRED)
+    public ResponseEntity<Object> approveReview(Integer id) {
+        Optional<Review> optReview = reviewRepository.findById(id);
+
+        if (optReview.isEmpty()) {
+            return ResponseEntity.status(404).body(new MessageResponse("Review with id=" + id + " does not exists"));
+        }
+
+        Review review = optReview.get();
+        review.setStatus(ReviewStatus.APPROVED);
+        review = reviewRepository.save(review);
+
+        Film film = filmRepository.findById(review.getTargetFilm().getId()).get();
+        film.updateAverageScore();
+        filmRepository.save(film);
+
+        return ResponseEntity.status(200).body(review);
+    }
+
+    public ResponseEntity<Object> rejectReview(Integer id) {
+        Optional<Review> optReview = reviewRepository.findById(id);
+
+        if (optReview.isEmpty()) {
+            return ResponseEntity.status(404).body(new MessageResponse("Review with id=" + id + " does not exists"));
+        }
+
+        Review review = optReview.get();
+        review.setStatus(ReviewStatus.REJECTED);
+        review = reviewRepository.save(review);
+
+        return ResponseEntity.status(200).body(review);
+    }
+
+    public boolean checkTarget(String username, Integer requestedReviewId) {
+        return reviewRepository
+                .findById(requestedReviewId)
+                .filter(review -> username.equals(review.getAuthor().getUsername()))
+                .isPresent();
+    }
+
 }
