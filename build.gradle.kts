@@ -24,6 +24,9 @@ dependencies {
 	implementation("org.postgresql:postgresql")
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
 	implementation("javax.xml.bind:jaxb-api:2.3.0")
+	implementation("org.springframework.boot:spring-boot-starter-amqp:3.2.4")
+	implementation("org.quartz-scheduler:quartz:2.3.2")
+	implementation("com.rabbitmq.jms:rabbitmq-jms:3.2.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
