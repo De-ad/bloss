@@ -1,11 +1,6 @@
 server:
   port: 8080
 
-spring.rabbitmq.host=localhost
-spring.rabbitmq.port=5672
-spring.rabbitmq.username=guest
-spring.rabbitmq.password=guest
-
 # Queue properties
 rabbitmq:
     queue: sms_notification
