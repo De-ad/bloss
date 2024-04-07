@@ -2,6 +2,9 @@ package com.brigada.bloss.controller;
 
 import com.brigada.bloss.listening.MessageResponse;
 import com.brigada.bloss.service.ReviewService;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +24,7 @@ import com.brigada.bloss.listening.ReviewRequest;
 
 @RestController
 @RequestMapping("/reviews")
+@Slf4j
 public class ReviewController {
 
     @Autowired
@@ -28,23 +32,27 @@ public class ReviewController {
 
     @GetMapping()
     public ResponseEntity<Object> getReviews() {
+        log.info("-> got GET at /reviews");
         return reviewService.getReviews();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getReview(@PathVariable Integer id) {
+        log.info("-> got GET at /reviews/" + id);
         return reviewService.getReview(id);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping()
     public ResponseEntity<Object> createReview(@RequestBody ReviewRequest reviewRequest, @AuthenticationPrincipal UserDetails userDetails) {
+        log.info("-> got POST at /reviews to film_id=" + reviewRequest.getFilmId() + " from " + userDetails.getUsername());
         return reviewService.createReview(reviewRequest, userDetails.getUsername());
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping()
     public ResponseEntity<Object> editReview(@RequestBody Review review, @AuthenticationPrincipal UserDetails userDetails) {
+        log.info("-> got PUT at /reviews to review_id=" + review.getId() + " from " + userDetails.getUsername());
         return reviewService.checkTarget(userDetails.getUsername(), review.getId())
                 ? reviewService.editReview(review)
                 : ResponseEntity.status(403).body(new MessageResponse("Access denied"));
@@ -53,6 +61,7 @@ public class ReviewController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteReview(@PathVariable Integer id, @AuthenticationPrincipal UserDetails userDetails) {
+        log.info("-> got DELETE at /reviews/" + id + " from " + userDetails.getUsername());
         return reviewService.checkTarget(userDetails.getUsername(), id)
                 ? reviewService.deleteReview(id)
                 : ResponseEntity.status(403).body(new MessageResponse("Access denied"));
@@ -61,18 +70,21 @@ public class ReviewController {
     @GetMapping("/raw")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> getRawReviews() {
+        log.info("-> got GET at /reviews/raw");
         return reviewService.getRawReviews();
     }
 
     @PostMapping("/{id}/approve")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> approveReview(@PathVariable  Integer id) {
+        log.info("-> got POST at /reviews/" + id + "/approve");
         return reviewService.approveReview(id);
     }
 
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> rejectReview(@PathVariable  Integer id) {
+        log.info("-> got POST at /reviews/" + id + "/reject");
         return reviewService.rejectReview(id);
     }
 

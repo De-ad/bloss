@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import com.brigada.bloss.dao.UserRepository;
 import com.brigada.bloss.entity.User;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -17,6 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.info("--> getting user with username='" + username + "' from user repo...");
         User user = userRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with username '" + username + "'"));

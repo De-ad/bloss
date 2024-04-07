@@ -20,7 +20,10 @@ import com.brigada.bloss.listening.CredentialsResponse;
 import com.brigada.bloss.listening.MessageResponse;
 import com.brigada.bloss.security.JwtUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class UserService {
 
     private final AuthenticationManager authenticationManager;
@@ -40,6 +43,7 @@ public class UserService {
     }
 
     public ResponseEntity<Object> login(CredentialsRequest credentialsRequest) {
+        log.info("--> processing login for user '" + credentialsRequest.getUsername() + "'...");
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     credentialsRequest.getUsername(), credentialsRequest.getPassword()
@@ -62,6 +66,7 @@ public class UserService {
     }
 
     public ResponseEntity<Object> register(User user) {
+        log.info("--> processing register for user '" + user.getUsername() + "'...");
         final String mainPassword = user.getPassword();
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -95,6 +100,7 @@ public class UserService {
     }
 
     public ResponseEntity<Object> getAll() {
+        log.info("--> getting all users");
         List<User> users = userRepository.findAll();
         return ResponseEntity.status(200).body(users);
     }

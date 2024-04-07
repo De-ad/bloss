@@ -19,10 +19,14 @@ import com.brigada.bloss.entity.User;
 import com.brigada.bloss.entity.util.ReviewStatus;
 import com.brigada.bloss.listening.MessageResponse;
 import com.brigada.bloss.listening.ReviewRequest;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 public class ReviewService {
 
     @Autowired
@@ -38,17 +42,20 @@ public class ReviewService {
     private FilmService filmService;
 
     public ResponseEntity<Object> getRawReviews() {
+        log.info("--> getting all reviews (including raw)...");
         List<Review> reviews = reviewRepository.findAll();
         return ResponseEntity.status(200).body(reviews);
     }
 
     public ResponseEntity<Object> getReviews() {
+        log.info("--> getting all reviews (excluding raw)...");
         List<Review> reviews = reviewRepository.findAll();
         reviews = reviews.stream().filter(r -> r.getStatus().equals(ReviewStatus.APPROVED)).toList();
         return ResponseEntity.status(200).body(reviews);
     }
 
     public ResponseEntity<Object> getReview(Integer id) {
+        log.info("--> getting review with id=" + id + "...");
         Optional<Review> optReview = reviewRepository.findById(id);
         if (!optReview.isPresent()) {
             return ResponseEntity.status(404).body(new MessageResponse("Review with id=" + id + " does not exists"));
@@ -64,7 +71,7 @@ public class ReviewService {
 
     @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRED)
     public ResponseEntity<Object> createReview(ReviewRequest reviewRequest, String username) {
-
+        log.info("--> creating review to film with id=" + reviewRequest.getFilmId() + " and author='" + username + "'...");
         Optional<User> opAuthor = userRepository.findByUsername(username);
         if (!opAuthor.isPresent()) {
             return ResponseEntity.status(404).body(new MessageResponse("User with username=" + username + " does not exists"));
@@ -90,7 +97,7 @@ public class ReviewService {
 
     @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRED)
     public ResponseEntity<Object> editReview(Review editedReview) {
-
+        log.info("--> editing review with id=" + editedReview.getId() + "...");
         Optional<Review> optReview = reviewRepository.findById(editedReview.getId());
 
         if (optReview.isEmpty()) {
@@ -113,7 +120,7 @@ public class ReviewService {
 
     @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRED)
     public ResponseEntity<Object> deleteReview(Integer id) {
-
+        log.info("--> deleting review with id=" + id + "...");
         Optional<Review> optReview = reviewRepository.findById(id);
 
         if (optReview.isEmpty()) {
@@ -133,6 +140,7 @@ public class ReviewService {
 
     @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRED)
     public ResponseEntity<Object> approveReview(Integer id) {
+        log.info("--> approving review with id=" + id + "...");
         Optional<Review> optReview = reviewRepository.findById(id);
 
         if (optReview.isEmpty()) {
@@ -149,6 +157,7 @@ public class ReviewService {
     }
 
     public ResponseEntity<Object> rejectReview(Integer id) {
+        log.info("--> rejecting review with id=" + id + "...");
         Optional<Review> optReview = reviewRepository.findById(id);
 
         if (optReview.isEmpty()) {
@@ -163,6 +172,7 @@ public class ReviewService {
     }
 
     public boolean checkTarget(String username, Integer requestedReviewId) {
+        log.info("--> checking that user with username='" + username + "'  is equal to reviewer...");
         Optional<Review> optReview = reviewRepository.findById(requestedReviewId);
         if (optReview.isEmpty()) {
             return false;

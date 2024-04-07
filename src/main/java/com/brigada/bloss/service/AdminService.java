@@ -13,7 +13,10 @@ import com.brigada.bloss.entity.util.Roles;
 import com.brigada.bloss.entity.Role;
 import com.brigada.bloss.listening.MessageResponse;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class AdminService {
 
     @Autowired
@@ -23,6 +26,7 @@ public class AdminService {
     private RoleService roleService;
 
     public ResponseEntity<Object> setAdmin(String username) {
+        log.info("--> setting admin for '" + username + "'...");
         Optional<User> optUser = userRepository.findByUsername(username);
         if (!optUser.isPresent()) {
             return ResponseEntity.status(404).body(new MessageResponse("User with username=" + username + " does not exists"));
