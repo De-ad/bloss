@@ -57,14 +57,14 @@ public class FilmDataSourceConfig {
 
     @Bean("filmDataSourceProperties")
     @Primary
-    @ConfigurationProperties("datasource.film")
+    @ConfigurationProperties("spring.datasource.film")
     public DataSourceProperties filmDataSourceProperties() {
         return new DataSourceProperties();
     }
 
     @Bean("filmDataSource")
     @Primary
-    @ConfigurationProperties("datasource.film")
+    @ConfigurationProperties("spring.datasource.film")
     public DataSource filmDataSource(@Qualifier("filmDataSourceProperties") DataSourceProperties filmDataSourceProperties) {
         PGXADataSource ds = new PGXADataSource();
         ds.setUrl(filmDataSourceProperties.getUrl());

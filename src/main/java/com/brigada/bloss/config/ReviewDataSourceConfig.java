@@ -56,14 +56,14 @@ public class ReviewDataSourceConfig {
 
     @Bean("reviewDataSourceProperties")
     @Primary
-    @ConfigurationProperties("datasource.review")
+    @ConfigurationProperties("spring.datasource.review")
     public DataSourceProperties reviewDataSourceProperties() {
         return new DataSourceProperties();
     }
 
     @Bean("reviewDataSource")
     @Primary
-    @ConfigurationProperties("datasource.review")
+    @ConfigurationProperties("spring.datasource.review")
     public DataSource reviewDataSource(@Qualifier("reviewDataSourceProperties") DataSourceProperties reviewDataSourceProperties) {
         PGXADataSource ds = new PGXADataSource();
         ds.setUrl(reviewDataSourceProperties.getUrl());

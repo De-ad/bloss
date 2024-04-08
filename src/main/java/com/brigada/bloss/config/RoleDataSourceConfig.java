@@ -55,14 +55,14 @@ public class RoleDataSourceConfig {
 
     @Bean("roleDataSourceProperties")
     @Primary
-    @ConfigurationProperties("datasource.role")
+    @ConfigurationProperties("spring.datasource.role")
     public DataSourceProperties roleDataSourceProperties() {
         return new DataSourceProperties();
     }
 
     @Bean("roleDataSource")
     @Primary
-    @ConfigurationProperties("datasource.role")
+    @ConfigurationProperties("spring.datasource.role")
     public DataSource roleDataSource(@Qualifier("roleDataSourceProperties") DataSourceProperties roleDataSourceProperties) {
         PGXADataSource ds = new PGXADataSource();
         ds.setUrl(roleDataSourceProperties.getUrl());

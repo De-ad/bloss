@@ -55,14 +55,14 @@ public class UserDataSourceConfig {
 
     @Bean("userDataSourceProperties")
     @Primary
-    @ConfigurationProperties("datasource.user")
+    @ConfigurationProperties("spring.datasource.user")
     public DataSourceProperties userDataSourceProperties() {
         return new DataSourceProperties();
     }
 
     @Bean("userDataSource")
     @Primary
-    @ConfigurationProperties("datasource.user")
+    @ConfigurationProperties("spring.datasource.user")
     public DataSource userDataSource(@Qualifier("userDataSourceProperties") DataSourceProperties userDataSourceProperties) {
         PGXADataSource ds = new PGXADataSource();
         ds.setUrl(userDataSourceProperties.getUrl());
