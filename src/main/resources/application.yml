@@ -4,12 +4,6 @@ server:
 mysimplejob:
   frequency: 5000
 
-# Queue properties
-rabbitmq:
-    queue: sms_notification
-    exchange: sms_exchange
-    routingkey: sms_routingkey
-
 spring:
   datasource:
     film:
@@ -32,12 +26,13 @@ spring:
       username: postgres
       password: postgres
       driver-class-name: org.postgresql.Driver
-  # Rabbit MQ server properties 
   rabbitmq:
+    virtual-host: /
     host: localhost
     port: 5672
     username: guest
     password: guest
+    cinema-queue-name: cinema
   main:
     banner-mode: console
 

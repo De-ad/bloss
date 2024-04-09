@@ -24,8 +24,13 @@ dependencies {
 	implementation("org.postgresql:postgresql")
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
 	implementation("javax.xml.bind:jaxb-api:2.3.0")
-	implementation("org.springframework.boot:spring-boot-starter-amqp:3.2.4")
 	implementation("org.springframework.boot:spring-boot-starter-quartz")
+	implementation("org.apache.activemq:activemq-client:6.1.1")
+	implementation("org.springframework.boot:spring-boot-starter-amqp")
+	implementation("com.ibm.mq:com.ibm.mq.allclient:9.3.5.0")
+	implementation("org.springframework:spring-jms:6.1.5")
+	implementation("jakarta.jms:jakarta.jms-api:3.1.0")
+
 	implementation("com.rabbitmq.jms:rabbitmq-jms:3.2.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
