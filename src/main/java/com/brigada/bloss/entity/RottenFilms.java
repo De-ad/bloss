@@ -17,7 +17,7 @@ public enum RottenFilms {
 
     SUPERMAN("Супермэн"),
 
-    AQUAMAN("Аквамен");
+    FLASH("Флэш");
 
     private final String title;
 

@@ -22,7 +22,7 @@ public class Consumer {
         return new MapReceiverJms();
     }
 
-    @Bean("netflixMessageListenerAdapter")
+    @Bean("amazonVideoMessageListenerAdapter")
     public MessageListenerAdapter messageListenerAdapter(@Qualifier("delegate") MapReceiverJms delegate) {
         MessageListenerAdapter adapter = new MessageListenerAdapter(delegate);
         adapter.setDefaultListenerMethod("receive");
@@ -31,8 +31,8 @@ public class Consumer {
 
     @Bean
     public DefaultMessageListenerContainer jmsListener(
-        @Qualifier("netflixConnectionFactory") ConnectionFactory connectionFactory,
-        @Qualifier("netflixMessageListenerAdapter") MessageListenerAdapter messageListenerAdapter
+        @Qualifier("amazonVideoConnectionFactory") ConnectionFactory connectionFactory,
+        @Qualifier("amazonVideoMessageListenerAdapter") MessageListenerAdapter messageListenerAdapter
         ) {
 
         DefaultMessageListenerContainer jmsListener = new DefaultMessageListenerContainer();

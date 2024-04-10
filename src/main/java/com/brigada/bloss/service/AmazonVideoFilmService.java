@@ -10,27 +10,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.brigada.bloss.dao.NetflixFilmRepository;
-import com.brigada.bloss.entity.NetflixFilm;
+import com.brigada.bloss.dao.AmazonVideoFilmRepository;
+import com.brigada.bloss.entity.AmazonVideoFilm;
 import com.brigada.bloss.entity.RottenFilms;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class NetflixFilmService {
+public class AmazonVideoFilmService {
 
     @Autowired
-    private NetflixFilmRepository filmRepository;
+    private AmazonVideoFilmRepository filmRepository;
 
-    public Iterable<NetflixFilm> getFilms() {
-        log.info("--> reading netflix films from db...");
-        List<NetflixFilm> films = filmRepository.findAll();
+    public Iterable<AmazonVideoFilm> getFilms() {
+        log.info("--> reading amazon video films from db...");
+        List<AmazonVideoFilm> films = filmRepository.findAll();
         return films;
     }
 
     public void processMappedData(Map<String, String> data) {
-        NetflixFilm nFilm = NetflixFilm.fromMap(data);
+        AmazonVideoFilm nFilm = AmazonVideoFilm.fromMap(data);
             
             if (RottenFilms.getSet().contains(nFilm.getName())) {
 

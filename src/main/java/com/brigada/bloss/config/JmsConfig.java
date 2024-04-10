@@ -26,7 +26,7 @@ public class JmsConfig {
     @Value("${spring.rabbitmq.cinema-queue-name}")
     private String queueName;
 
-    @Bean("netflixConnectionFactory")
+    @Bean("amazonVideoConnectionFactory")
     public ConnectionFactory jmsConnectionFactory() {
         RMQConnectionFactory rmqcf = new RMQConnectionFactory();
         rmqcf.setUsername(rmqUsername);
@@ -37,7 +37,7 @@ public class JmsConfig {
         return rmqcf;
     }
 
-    @Bean("netflixDestination")
+    @Bean("amazonVideoDestination")
     public Destination jmsDestination() {
         RMQDestination jmsDestination = new RMQDestination();
         jmsDestination.setDestinationName(queueName);

@@ -16,8 +16,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "netflix_films")
-public class NetflixFilm {
+@Table(name = "amazon_films")
+public class AmazonVideoFilm {
 
     @Id
     @Column(name = "id")
@@ -35,9 +35,9 @@ public class NetflixFilm {
     @Column(name = "last_receive_time")
     private Timestamp lastReceiveTime;
 
-    public static NetflixFilm fromMap(Map<String, String> data) {
+    public static AmazonVideoFilm fromMap(Map<String, String> data) {
         System.out.println(data);
-        return new NetflixFilm(
+        return new AmazonVideoFilm(
             Integer.parseInt(data.get("id")),
             data.get("name"),
             data.get("description"),

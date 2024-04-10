@@ -1,8 +1,8 @@
 package com.brigada.bloss.controller;
 
-import com.brigada.bloss.entity.NetflixFilm;
+import com.brigada.bloss.entity.AmazonVideoFilm;
 
-import com.brigada.bloss.service.NetflixFilmService;
+import com.brigada.bloss.service.AmazonVideoFilmService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/netflix-films")
+@RequestMapping("/amazon-video-films")
 @Slf4j
-public class NetflixFilmController {
+public class AmazonVideoFilmController {
 
     @Autowired
-    private NetflixFilmService filmService;
+    private AmazonVideoFilmService filmService;
 
     @GetMapping()
-    public Iterable<NetflixFilm> getFilms() {
-        log.info("-> got GET at /netflix-films");
+    public Iterable<AmazonVideoFilm> getFilms() {
+        log.info("-> got GET at /amazon-video-films");
         return filmService.getFilms();
     }
 

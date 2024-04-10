@@ -1,11 +1,11 @@
 server:
-  port: 7777
+  port: 6666
 
 spring:
   profiles:
     active: consume
   datasource:
-    url: jdbc:postgresql://localhost:5432/netflix
+    url: jdbc:postgresql://localhost:5432/amazon_video
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
