@@ -4,12 +4,10 @@ import com.rabbitmq.jms.admin.RMQConnectionFactory;
 import com.rabbitmq.jms.admin.RMQDestination;
 import jakarta.jms.ConnectionFactory;
 import jakarta.jms.Destination;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
-import org.springframework.jms.core.JmsTemplate;
 
 @Configuration
 @EnableJms
@@ -28,7 +26,7 @@ public class JmsConfig {
     @Value("${spring.rabbitmq.cinema-queue-name")
     private String queueName;
 
-    @Bean("blossConnectionFactory")
+    @Bean("netflixConnectionFactory")
     public ConnectionFactory jmsConnectionFactory() {
         RMQConnectionFactory rmqcf = new RMQConnectionFactory();
         rmqcf.setUsername(rmqUsername);
@@ -39,19 +37,12 @@ public class JmsConfig {
         return rmqcf;
     }
 
-    @Bean("blossJmsTemplate")
-    public JmsTemplate jmsTemplate(@Qualifier("blossConnectionFactory") ConnectionFactory jmsConnectionFactory) {
-        JmsTemplate template = new JmsTemplate();
-        template.setConnectionFactory(jmsConnectionFactory);
-        template.setPubSubDomain(false); // false for a Queue, true for a Topic
-        return template;
-
-    }
-
-    @Bean("blossDestination")
+    @Bean("netflixDestination")
     public Destination jmsDestination() {
         RMQDestination jmsDestination = new RMQDestination();
         jmsDestination.setDestinationName(queueName);
+        jmsDestination.setAmqp(true);
+        jmsDestination.setAmqpQueueName(queueName);
         return jmsDestination;
     }
     
