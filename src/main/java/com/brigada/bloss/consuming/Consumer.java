@@ -18,7 +18,7 @@ import java.util.HashMap;
 @Slf4j
 public class Consumer {
 
-    @Value("${spring.rabbitmq.cinema-queue-name")
+    @Value("${spring.rabbitmq.cinema-queue-name}")
     private String queueName;
 
     @Bean
