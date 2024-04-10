@@ -1,5 +1,8 @@
 package com.brigada.bloss.entity;
 
+import java.sql.Timestamp;
+import java.util.Map;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,11 +20,10 @@ import lombok.ToString;
 public class NetflixFilm {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "description")
@@ -29,5 +31,19 @@ public class NetflixFilm {
 
     @Column(name = "average_score")
     private Double averageScore = 0d;
+
+    @Column(name = "last_receive_time")
+    private Timestamp lastReceiveTime;
+
+    public static NetflixFilm fromMap(Map<String, String> data) {
+        System.out.println(data);
+        return new NetflixFilm(
+            Integer.parseInt(data.get("id")),
+            data.get("name"),
+            data.get("description"),
+            Double.parseDouble(data.get("average_score")),
+            null
+        );
+    }
 
 }
