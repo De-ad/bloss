@@ -14,8 +14,10 @@ import jakarta.jms.Session;
 @Component
 public class MapSenderJms {
 
-    @Value("${spring.rabbitmq.cinema-queue-name}")
-    private String queueName;
+    @Value("${spring.rabbitmq.netflix-cinema-queue-name}")
+    private String netflixQueueName;
+    @Value("${spring.rabbitmq.amazon-video-cinema-queue-name}")
+    private String amazonVideoQueueName;
 
     @Qualifier("blossJmsTemplate")
     @Autowired
@@ -26,7 +28,12 @@ public class MapSenderJms {
         MessageCreator messageCreator = (Session session) -> session.createObjectMessage(mappedObject);
 
         template.send(
-                queueName,
+                netflixQueueName,
+                messageCreator
+        );
+
+        template.send(
+                amazonVideoQueueName,
                 messageCreator
         );
 
