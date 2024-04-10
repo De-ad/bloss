@@ -2,6 +2,7 @@ package com.brigada.bloss.entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.brigada.bloss.entity.util.ReviewStatus;
@@ -65,6 +66,15 @@ public class Film {
                 .average()
                 .orElse(0d);
 
+    }
+
+    public HashMap<String, String> toMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("id", String.valueOf(this.id));
+        map.put("name", this.name);
+        map.put("description", this.description);
+        map.put("average_score", String.valueOf(this.averageScore));
+        return map;
     }
 
 }

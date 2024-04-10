@@ -25,7 +25,7 @@ public class JmsConfig {
     private String rmqHost;
     @Value("${spring.rabbitmq.port}")
     private Integer rmqPort;
-    @Value("${spring.rabbitmq.cinema-queue-name")
+    @Value("${spring.rabbitmq.cinema-queue-name}")
     private String queueName;
 
     @Bean("blossConnectionFactory")
