@@ -21,6 +21,6 @@ spring:
     port: 5672
     username: guest
     password: guest
-    cinema-queue-name: cinema
+    cinema-queue-name: amazon-video-cinema
   main:
     banner-mode: console
