@@ -18,7 +18,7 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
-import com.brigada.bloss.jobs.MyMessagePrinter;
+import com.brigada.bloss.jobs.FilmProducerJob;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,9 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 public class SchedulerConfig {
 
 	@Bean
-	public JobDetailFactoryBean mySimpleJob() {
+	public JobDetailFactoryBean filmProducerJob() {
 		var factoryBean = new JobDetailFactoryBean();
-		factoryBean.setJobClass(MyMessagePrinter.class);
+		factoryBean.setJobClass(FilmProducerJob.class);
 		factoryBean.setDurability(true);
 		return factoryBean;
 	}
@@ -43,25 +43,23 @@ public class SchedulerConfig {
 	}
 
 	@Bean
-	public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory, Trigger simpleJobTrigger)
+	public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory, Trigger filmProducerJobTrigger)
 			throws IOException {
-		var factory = new SchedulerFactoryBean();
+		SchedulerFactoryBean factory = new SchedulerFactoryBean();
 		factory.setJobFactory(jobFactory);
 		factory.setQuartzProperties(quartzProperties());
-		factory.setTriggers(simpleJobTrigger);
-		// log.info("starting jobs....");
+		factory.setTriggers(filmProducerJobTrigger);
+		log.info("starting jobs....");
 		return factory;
 	}
 
 	@Bean
-	public SimpleTriggerFactoryBean simpleJobTrigger(@Qualifier("mySimpleJob") JobDetail jobDetail,
-			@Value("${mysimplejob.frequency}") long frequency) {
+	public SimpleTriggerFactoryBean filmProducerJobTrigger(@Qualifier("filmProducerJob") JobDetail jobDetail,
+			@Value("${film-producer-job.frequency}") long frequency) {
 
-		// log.info("mySimpleJobTriggered");
-
-		var factoryBean = new SimpleTriggerFactoryBean();
+		SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
 		factoryBean.setJobDetail(jobDetail);
-		factoryBean.setStartDelay(0L);
+		factoryBean.setStartDelay(5000L);
 		factoryBean.setRepeatInterval(frequency);
 		factoryBean.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
 		return factoryBean;

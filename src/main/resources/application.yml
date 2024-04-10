@@ -1,7 +1,7 @@
 server:
   port: 8080
 
-mysimplejob:
+film-producer-job:
   frequency: 5000
 
 spring:
