@@ -1,5 +1,6 @@
 package com.brigada.bloss.entity;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,12 @@ public class Film {
 
     @Column(name = "average_score", nullable = false)
     private Double averageScore = 0d;
+
+    @Column(name = "update_time", nullable = false)
+    private Timestamp updateTime;
+
+    @Column(name = "last_viewed_time", nullable = false)
+    private Timestamp lastViewedTime;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "targetFilm", fetch = FetchType.EAGER)
     @JsonIgnore

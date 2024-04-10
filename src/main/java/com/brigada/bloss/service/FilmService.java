@@ -1,5 +1,8 @@
 package com.brigada.bloss.service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +43,8 @@ public class FilmService {
 
     public ResponseEntity<Object> createFilm(Film film) {
         log.info("--> creatig film with name='" + film.getName() + "'...");
+        film.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
+        film.setLastViewedTime(Timestamp.valueOf(LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.MIN)));
         film = filmRepository.save(film);
         return ResponseEntity.status(201).body(film);
     }
@@ -53,6 +58,7 @@ public class FilmService {
         Film film = optFilm.get();
         film.setName(filmRequest.getName());
         film.setDescription(filmRequest.getDescription());
+        film.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
         filmRepository.save(film);
         return ResponseEntity.status(200).body(film);
     }
@@ -69,7 +75,17 @@ public class FilmService {
         Optional<Film> optFilm = filmRepository.findById(filmId);
         Film film = optFilm.get();
         film.updateAverageScore();
+        film.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
         return filmRepository.save(film);
+    }
+
+    @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRED)
+    public void jobViewedFilms(Integer filmId) {
+        log.info("--> updating last viewed time for film with id=" + filmId + "...");
+        Optional<Film> optFilm = filmRepository.findById(filmId);
+        Film film = optFilm.get();
+        film.setLastViewedTime(Timestamp.valueOf(LocalDateTime.now()));
+        filmRepository.save(film);
     }
 
 }

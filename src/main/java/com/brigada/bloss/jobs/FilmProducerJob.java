@@ -24,12 +24,28 @@ public class FilmProducerJob implements Job {
 
         log.info("Films:");
         for (Film film : films) {
+            boolean needToSend = film.getUpdateTime().compareTo(film.getLastViewedTime()) > 0;
+
+            if (needToSend) {
+                log.info("Вот это отправлю:");
+            } else {
+                log.info("Не отправлю:");
+            }
+
             log.info("------> " + film.getId());
             log.info("------> " + film.getName());
             log.info("------> " + film.getDescription());
             log.info("------> " + film.getAverageScore());
+            log.info("------> " + film.getUpdateTime());
+            log.info("------> " + film.getLastViewedTime());
+
+            if (needToSend) {
+                log.info("Отправляю...");
+                filmService.jobViewedFilms(film.getId());
+            }
+
         }
 
     }
-    
+
 }
