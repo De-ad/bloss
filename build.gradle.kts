@@ -30,6 +30,12 @@ dependencies {
 	implementation("com.ibm.mq:com.ibm.mq.allclient:9.3.5.0")
 	implementation("org.springframework:spring-jms:6.1.5")
 	implementation("jakarta.jms:jakarta.jms-api:3.1.0")
+	// https://mvnrepository.com/artifact/org.camunda.bpm.springboot/camunda-bpm-spring-boot-starter-webapp
+	implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:7.21.0")
+	// https://mvnrepository.com/artifact/com.h2database/h2
+	testImplementation("com.h2database:h2:2.2.224")
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-jdbc
+	implementation("org.springframework.boot:spring-boot-starter-jdbc:3.2.5")
 
 	implementation("com.rabbitmq.jms:rabbitmq-jms:3.2.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
