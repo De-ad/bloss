@@ -7,17 +7,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.brigada.bloss.dao.FilmRepository;
 import com.brigada.bloss.entity.Film;
-import com.brigada.bloss.listening.MessageResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Service
 @Slf4j
@@ -25,67 +23,76 @@ public class FilmService {
 
     @Autowired
     private FilmRepository filmRepository;
+    @Autowired
+    @Qualifier("transactionTemplateRepeatableRead")
+    private TransactionTemplate repeatableReadTransactionTemplate;
+    @Autowired
+    @Qualifier("transactionTemplateReadCommitted")
+    private TransactionTemplate readOnlyTransactionTemplate;
 
-    public ResponseEntity<Object> getFilms() {
+    public List<Film> getFilms() {
         log.info("--> reading films from db...");
-        List<Film> films = filmRepository.findAll();
-        return ResponseEntity.status(200).body(films);
+        return readOnlyTransactionTemplate.execute(status -> filmRepository.findAll());
     }
 
-    public ResponseEntity<Object> getFilm(Integer filmId) {
+    public Film getFilm(Integer filmId) {
         log.info("--> reading film with id=" + filmId + " from db...");
-        Optional<Film> optFilm = filmRepository.findById(filmId);
-        if (!optFilm.isPresent()) {
-            return ResponseEntity.status(404).body(new MessageResponse("Film with id=" + filmId + " does not exists"));
-        }
-        return ResponseEntity.status(200).body(optFilm.get());
+        return filmRepository.findById(filmId).get();
     }
 
-    public ResponseEntity<Object> createFilm(Film film) {
+    public Film createFilm(final Film film) {
         log.info("--> creatig film with name='" + film.getName() + "'...");
-        film.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
-        film.setLastViewedTime(Timestamp.valueOf(LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.MIN)));
-        film = filmRepository.save(film);
-        return ResponseEntity.status(201).body(film);
+        return repeatableReadTransactionTemplate.execute(status -> {
+            film.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
+            film.setLastViewedTime(Timestamp.valueOf(LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.MIN)));
+            return filmRepository.save(film);
+        });
     }
 
-    public ResponseEntity<Object> editFilm(Film filmRequest) {
+    public Film editFilm(final Film filmRequest) {
         log.info("--> editing film with name='" + filmRequest.getName() + "'...");
-        Optional<Film> optFilm = filmRepository.findById(filmRequest.getId());
-        if (!optFilm.isPresent()) {
-            return ResponseEntity.status(404).body(new MessageResponse("Film with id=" + filmRequest.getId() + " does not exists"));
-        }
-        Film film = optFilm.get();
-        film.setName(filmRequest.getName());
-        film.setDescription(filmRequest.getDescription());
-        film.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
-        filmRepository.save(film);
-        return ResponseEntity.status(200).body(film);
+        return repeatableReadTransactionTemplate.execute(status -> {
+            Optional<Film> optFilm = filmRepository.findById(filmRequest.getId());
+            if (!optFilm.isPresent()) {
+                return null;
+            }
+            Film film = optFilm.get();
+            film.setName(filmRequest.getName());
+            film.setDescription(filmRequest.getDescription());
+            film.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
+            return filmRepository.save(film);
+        });
+
     }
 
-    public ResponseEntity<Object> deleteFilm(Integer id) {
+    public Film deleteFilm(Integer id) {
         log.info("--> deleting film with id=" + id + "...");
-        filmRepository.deleteById(id);
-        return ResponseEntity.status(204).body(null);
+        return repeatableReadTransactionTemplate.execute(status -> {
+            Film deletedFilm = filmRepository.getReferenceById(id);
+            filmRepository.deleteById(id);
+            return deletedFilm;
+        });
     }
 
-    @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRED)
     public Film updateAverageScore(Integer filmId) {
         log.info("--> updating avg score for film with id=" + filmId + "...");
-        Optional<Film> optFilm = filmRepository.findById(filmId);
-        Film film = optFilm.get();
-        film.updateAverageScore();
-        film.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
-        return filmRepository.save(film);
+        return readOnlyTransactionTemplate.execute(status -> {
+            Optional<Film> optFilm = filmRepository.findById(filmId);
+            Film film = optFilm.get();
+            film.updateAverageScore();
+            film.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
+            return filmRepository.save(film);
+        });
     }
 
-    @Transactional(transactionManager = "blossTransactionManager", propagation = Propagation.REQUIRED)
     public void jobViewedFilms(Integer filmId) {
         log.info("--> updating last viewed time for film with id=" + filmId + "...");
-        Optional<Film> optFilm = filmRepository.findById(filmId);
-        Film film = optFilm.get();
-        film.setLastViewedTime(Timestamp.valueOf(LocalDateTime.now()));
-        filmRepository.save(film);
+        readOnlyTransactionTemplate.execute(status -> {
+            Optional<Film> optFilm = filmRepository.findById(filmId);
+            Film film = optFilm.get();
+            film.setLastViewedTime(Timestamp.valueOf(LocalDateTime.now()));
+            return filmRepository.save(film);
+        });
     }
 
 }

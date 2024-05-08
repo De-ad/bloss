@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.camunda.bpm.engine.identity.User;
 
 @Getter
 @Setter
@@ -30,9 +31,8 @@ public class Review {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "user_id")
-    private User author;
+    @Column(name = "author_user_id", nullable = false)
+    private String authorUserId;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "film_id")

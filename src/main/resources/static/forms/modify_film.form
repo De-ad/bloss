@@ -1,0 +1,111 @@
+{
+  "components": [
+    {
+      "label": "Films",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_1tl004e",
+        "columns": null
+      },
+      "id": "Field_1xg505g",
+      "key": "modify_film_all_films_textarea",
+      "readonly": true
+    },
+    {
+      "label": "Film id",
+      "type": "number",
+      "layout": {
+        "row": "Row_0q6lsk5",
+        "columns": null
+      },
+      "id": "Field_0a0r0aa",
+      "key": "modify_film_id_number",
+      "readonly": false,
+      "validate": {
+        "min": 1
+      },
+      "appearance": {}
+    },
+    {
+      "label": "Film name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_04gp919",
+        "columns": null
+      },
+      "id": "Field_00hwgt5",
+      "key": "modify_film_textfield",
+      "validate": {
+        "minLength": 1
+      }
+    },
+    {
+      "label": "Film description",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_1nzmk8r",
+        "columns": null
+      },
+      "id": "Field_0ye0vbo",
+      "key": "modify_film_film_description_textarea",
+      "validate": {
+        "minLength": 1
+      }
+    },
+    {
+      "values": [
+        {
+          "label": "Create",
+          "value": "create"
+        },
+        {
+          "label": "Update",
+          "value": "update"
+        },
+        {
+          "label": "Delete",
+          "value": "delete"
+        }
+      ],
+      "label": "Select",
+      "type": "select",
+      "layout": {
+        "row": "Row_04vcrol",
+        "columns": null
+      },
+      "id": "Field_0tfr5ux",
+      "key": "modify_film_selector_operation",
+      "defaultValue": "Create"
+    },
+    {
+      "height": 60,
+      "label": "Spacer",
+      "type": "spacer",
+      "layout": {
+        "row": "Row_1ekbg9c",
+        "columns": 6
+      },
+      "id": "Field_0vnme39"
+    },
+    {
+      "action": "submit",
+      "label": "LET'S GO",
+      "type": "button",
+      "layout": {
+        "row": "Row_1ekbg9c",
+        "columns": null
+      },
+      "id": "Field_07etj0o",
+      "properties": {}
+    }
+  ],
+  "type": "default",
+  "id": "Form_1n7h3jj",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.5.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "schemaVersion": 16
+}

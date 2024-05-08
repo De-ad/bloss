@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+camunda:
+  bpm:
+    admin-user:
+      id: max
+      password: max
+
+spring:
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    ddl-auto: update
+  jta:
+    atomikos:
+      datasource:
+        unique-resource-name: postgres
+        xa-data-source-class-name: org.postgresql.xa.PGXADataSource
+        xa-properties:
+          url: jdbc:postgresql://localhost:5432/bloss
+          user: postgres
+          password: postgres
+        max-pool-size: 5

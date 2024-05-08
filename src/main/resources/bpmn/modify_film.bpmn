@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_03ohahg" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.22.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_0nu70hp">
+    <bpmn:participant id="Participant_0bvlajv" name="RottenTomatoes" processRef="Modify_film" />
+  </bpmn:collaboration>
+  <bpmn:process id="Modify_film" name="Modify film" isExecutable="true" camunda:historyTimeToLive="1">
+    <bpmn:laneSet id="LaneSet_02u3cp9">
+      <bpmn:lane id="Lane_0hwqr9m" name="Client">
+        <bpmn:flowNodeRef>Activity_03q8kbj</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_0161ha9</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0kxcigb</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_13c640j" name="Server">
+        <bpmn:flowNodeRef>Activity_105r07f</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0k7het8</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:serviceTask id="Activity_105r07f" name="Process data" camunda:delegateExpression="#{dataProcessorModifyFilm}">
+      <bpmn:incoming>Flow_0r268d1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1047yt0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0r268d1" sourceRef="Activity_03q8kbj" targetRef="Activity_105r07f" />
+    <bpmn:userTask id="Activity_03q8kbj" name="Modify film" camunda:formKey="camunda-forms:/forms/modify_film.form" camunda:assignee="#{ initiator }" camunda:candidateGroups="moderators, camunda-admin">
+      <bpmn:incoming>Flow_1f40ea4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0r268d1</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="StartEvent_1" name="Want to modify film" camunda:initiator="initiator">
+      <bpmn:outgoing>Flow_1971pla</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1971pla" sourceRef="StartEvent_1" targetRef="Activity_0k7het8" />
+    <bpmn:sequenceFlow id="Flow_1f40ea4" sourceRef="Activity_0k7het8" targetRef="Activity_03q8kbj" />
+    <bpmn:sequenceFlow id="Flow_1047yt0" sourceRef="Activity_105r07f" targetRef="Activity_0kxcigb" />
+    <bpmn:sequenceFlow id="Flow_024y87h" sourceRef="Activity_0kxcigb" targetRef="Event_0161ha9" />
+    <bpmn:endEvent id="Event_0161ha9" name="End">
+      <bpmn:incoming>Flow_024y87h</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Activity_0kxcigb" name="View modified film" camunda:formKey="camunda-forms:/forms/view_modified_film.form" camunda:assignee="#{ initiator }">
+      <bpmn:incoming>Flow_1047yt0</bpmn:incoming>
+      <bpmn:outgoing>Flow_024y87h</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_0k7het8" name="Fetch films" camunda:delegateExpression="#{filmFetcherModifyFilm}">
+      <bpmn:incoming>Flow_1971pla</bpmn:incoming>
+      <bpmn:outgoing>Flow_1f40ea4</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0nu70hp">
+      <bpmndi:BPMNShape id="Participant_0bvlajv_di" bpmnElement="Participant_0bvlajv" isHorizontal="true">
+        <dc:Bounds x="120" y="80" width="1160" height="420" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_13c640j_di" bpmnElement="Lane_13c640j" isHorizontal="true">
+        <dc:Bounds x="150" y="290" width="1130" height="210" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0hwqr9m_di" bpmnElement="Lane_0hwqr9m" isHorizontal="true">
+        <dc:Bounds x="150" y="80" width="1130" height="210" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qwoc1y_di" bpmnElement="Activity_105r07f">
+        <dc:Bounds x="740" y="350" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0h5u19k_di" bpmnElement="Activity_03q8kbj">
+        <dc:Bounds x="530" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="216" y="205" width="73" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0161ha9_di" bpmnElement="Event_0161ha9">
+        <dc:Bounds x="1162" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1170" y="205" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_11ar9ux_di" bpmnElement="Activity_0kxcigb">
+        <dc:Bounds x="950" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1g4uwwv_di" bpmnElement="Activity_0k7het8">
+        <dc:Bounds x="340" y="350" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0r268d1_di" bpmnElement="Flow_0r268d1">
+        <di:waypoint x="630" y="180" />
+        <di:waypoint x="685" y="180" />
+        <di:waypoint x="685" y="390" />
+        <di:waypoint x="740" y="390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1971pla_di" bpmnElement="Flow_1971pla">
+        <di:waypoint x="268" y="180" />
+        <di:waypoint x="304" y="180" />
+        <di:waypoint x="304" y="390" />
+        <di:waypoint x="340" y="390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1f40ea4_di" bpmnElement="Flow_1f40ea4">
+        <di:waypoint x="440" y="390" />
+        <di:waypoint x="485" y="390" />
+        <di:waypoint x="485" y="180" />
+        <di:waypoint x="530" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1047yt0_di" bpmnElement="Flow_1047yt0">
+        <di:waypoint x="840" y="390" />
+        <di:waypoint x="895" y="390" />
+        <di:waypoint x="895" y="180" />
+        <di:waypoint x="950" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_024y87h_di" bpmnElement="Flow_024y87h">
+        <di:waypoint x="1050" y="180" />
+        <di:waypoint x="1162" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
