@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @Getter
 @ToString
-public enum ReviewStatus {
+public enum ReviewStatus implements Serializable {
 
     APPROVED("approved"),
 

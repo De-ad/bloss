@@ -1,5 +1,6 @@
 package com.brigada.bloss.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.brigada.bloss.entity.util.ReviewStatus;
@@ -17,7 +18,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.camunda.bpm.engine.identity.User;
 
 @Getter
 @Setter
@@ -25,7 +25,7 @@ import org.camunda.bpm.engine.identity.User;
 @ToString
 @Entity
 @Table(name = "reviews")
-public class Review {
+public class Review implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

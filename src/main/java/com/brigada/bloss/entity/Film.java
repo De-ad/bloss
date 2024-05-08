@@ -1,5 +1,6 @@
 package com.brigada.bloss.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "films")
-public class Film {
+public class Film implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

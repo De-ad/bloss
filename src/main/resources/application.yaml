@@ -8,6 +8,13 @@ camunda:
       password: max
 
 spring:
+  rabbitmq:
+    virtual-host: /
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    films-queue-name: cinema
   jpa:
     open-in-view: false
     generate-ddl: true

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0ydiwgc" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.22.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_00pt59x">
+    <bpmn:participant id="Participant_05qnoaf" name="RottenTomatoes" processRef="send_data" />
+    <bpmn:participant id="Participant_11ebb30" name="Rabbit MQ" />
+    <bpmn:messageFlow id="Flow_08jv5wh" sourceRef="Activity_0tjxdle" targetRef="Participant_11ebb30" />
+  </bpmn:collaboration>
+  <bpmn:process id="send_data" name="Send data to consumers" isExecutable="true" camunda:historyTimeToLive="1">
+    <bpmn:laneSet id="LaneSet_1kjos1g">
+      <bpmn:lane id="Lane_0bo14xh" name="Daemon">
+        <bpmn:flowNodeRef>Event_03ihac1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0tjxdle</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_1sik4rb</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1braqi5" name="Server">
+        <bpmn:flowNodeRef>Activity_0eeljrz</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:sequenceFlow id="Flow_15sba3f" sourceRef="Event_03ihac1" targetRef="Activity_0eeljrz" />
+    <bpmn:startEvent id="Event_03ihac1" name="Every n hours (10 seconds)">
+      <bpmn:outgoing>Flow_15sba3f</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0klng0g">
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/PT10S</bpmn:timeCycle>
+      </bpmn:timerEventDefinition>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Activity_0eeljrz" name="Fetch film data" camunda:delegateExpression="#{filmDataFetcherSendData}">
+      <bpmn:incoming>Flow_15sba3f</bpmn:incoming>
+      <bpmn:outgoing>Flow_0tyh733</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0tyh733" sourceRef="Activity_0eeljrz" targetRef="Activity_0tjxdle" />
+    <bpmn:sendTask id="Activity_0tjxdle" name="Send changed data to queue" camunda:delegateExpression="#{sendToQueueSendData}">
+      <bpmn:incoming>Flow_0tyh733</bpmn:incoming>
+      <bpmn:standardLoopCharacteristics />
+    </bpmn:sendTask>
+    <bpmn:boundaryEvent id="Event_1sik4rb" name="Data not changed" attachedToRef="Activity_0tjxdle">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0xmlzln" />
+    </bpmn:boundaryEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_00pt59x">
+      <bpmndi:BPMNShape id="Participant_05qnoaf_di" bpmnElement="Participant_05qnoaf" isHorizontal="true">
+        <dc:Bounds x="129" y="90" width="739" height="480" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0bo14xh_di" bpmnElement="Lane_0bo14xh" isHorizontal="true">
+        <dc:Bounds x="159" y="90" width="709" height="290" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1braqi5_di" bpmnElement="Lane_1braqi5" isHorizontal="true">
+        <dc:Bounds x="159" y="380" width="709" height="190" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_03ihac1_di" bpmnElement="Event_03ihac1">
+        <dc:Bounds x="232" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="207" y="176" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gr6w67_di" bpmnElement="Activity_0eeljrz">
+        <dc:Bounds x="300" y="440" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1u3ih82_di" bpmnElement="Activity_0tjxdle">
+        <dc:Bounds x="680" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1sik4rb_di" bpmnElement="Event_1sik4rb">
+        <dc:Bounds x="762" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="737" y="142" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_15sba3f_di" bpmnElement="Flow_15sba3f">
+        <di:waypoint x="250" y="248" />
+        <di:waypoint x="250" y="480" />
+        <di:waypoint x="300" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tyh733_di" bpmnElement="Flow_0tyh733">
+        <di:waypoint x="400" y="480" />
+        <di:waypoint x="485" y="480" />
+        <di:waypoint x="485" y="230" />
+        <di:waypoint x="680" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_11ebb30_di" bpmnElement="Participant_11ebb30" isHorizontal="true">
+        <dc:Bounds x="129" y="630" width="739" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_08jv5wh_di" bpmnElement="Flow_08jv5wh">
+        <di:waypoint x="730" y="270" />
+        <di:waypoint x="730" y="630" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
