@@ -50,6 +50,9 @@
 Инициализация базовых ролей
 ![Init base roles](./img/init_base_roles.png)
 
+Написать отзыв
+![Write review](./img/write_review.png)
+
 ### Выводы по работе
 
 #### Тучков Максим Русланович
