@@ -1,0 +1,94 @@
+{
+  "components": [
+    {
+      "text": "# {{film_name}}",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_0f0flpp",
+        "columns": null
+      },
+      "id": "Field_1ennupq"
+    },
+    {
+      "label": "Reviews",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_0rgckto",
+        "columns": null
+      },
+      "id": "Field_19prskt",
+      "key": "reviews_write_review_textarea",
+      "readonly": true
+    },
+    {
+      "text": "# А что думаешь ты?!",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_179wxbm",
+        "columns": null
+      },
+      "id": "Field_1n7ny0f"
+    },
+    {
+      "label": "Enter review text",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_0zz5kid",
+        "columns": null
+      },
+      "id": "Field_16o7xb6",
+      "key": "review_text_create_review_textarea",
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "label": "Enter rating",
+      "type": "number",
+      "layout": {
+        "row": "Row_1bqtllt",
+        "columns": null
+      },
+      "id": "Field_1p2iibt",
+      "key": "review_rating_create_review_number",
+      "validate": {
+        "min": 0,
+        "max": 10,
+        "required": true
+      },
+      "defaultValue": 10
+    },
+    {
+      "height": 60,
+      "label": "Spacer",
+      "type": "spacer",
+      "layout": {
+        "row": "Row_16blxxg",
+        "columns": 6
+      },
+      "id": "Field_1p01efy"
+    },
+    {
+      "action": "submit",
+      "label": "Send",
+      "type": "button",
+      "layout": {
+        "row": "Row_16blxxg",
+        "columns": null
+      },
+      "id": "Field_0c968cz"
+    }
+  ],
+  "type": "default",
+  "id": "Form_0wzt9bc",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

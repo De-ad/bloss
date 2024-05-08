@@ -36,6 +36,7 @@ public class Review {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "film_id")
+    @ToString.Exclude
     private Film targetFilm;
 
     @Column(name = "text", nullable = true)

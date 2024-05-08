@@ -26,6 +26,14 @@ public class AtomikosConfig {
         return template;
     }
 
+    @Bean(name = "transactionTemplateRepeatableReadSupports")
+    public TransactionTemplate supportingTransactionTemplate() {
+        TransactionTemplate template = new TransactionTemplate(transactionManager());
+        template.setIsolationLevel(ISOLATION_REPEATABLE_READ);
+        template.setPropagationBehavior(PROPAGATION_SUPPORTS);
+        return template;
+    }
+
     @Bean(name = "transactionTemplateReadCommitted")
     public TransactionTemplate readOnlyTransactionTemplate() {
         TransactionTemplate template = new TransactionTemplate(transactionManager());

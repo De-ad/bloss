@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "text": "# Вердикт: {{approved}}!",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_0ssud6k",
+        "columns": null
+      },
+      "id": "Field_0azzjy7"
+    },
+    {
+      "label": "Сообщение от модератора:",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_0pd14ds",
+        "columns": null
+      },
+      "id": "Field_1rvl80a",
+      "key": "review_validation_result_textarea",
+      "readonly": true
+    }
+  ],
+  "type": "default",
+  "id": "Form_1ybd1ss",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

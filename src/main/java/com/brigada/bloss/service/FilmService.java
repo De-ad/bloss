@@ -29,6 +29,9 @@ public class FilmService {
     @Autowired
     @Qualifier("transactionTemplateReadCommitted")
     private TransactionTemplate readOnlyTransactionTemplate;
+    @Autowired
+    @Qualifier("transactionTemplateRepeatableReadSupports")
+    private TransactionTemplate supportingRepeatableReadTemplate;
 
     public List<Film> getFilms() {
         log.info("--> reading films from db...");
@@ -37,7 +40,9 @@ public class FilmService {
 
     public Film getFilm(Integer filmId) {
         log.info("--> reading film with id=" + filmId + " from db...");
-        return filmRepository.findById(filmId).get();
+        return readOnlyTransactionTemplate.execute(status -> {
+            return filmRepository.findById(filmId).get();
+        });
     }
 
     public Film createFilm(final Film film) {
@@ -76,7 +81,7 @@ public class FilmService {
 
     public Film updateAverageScore(Integer filmId) {
         log.info("--> updating avg score for film with id=" + filmId + "...");
-        return readOnlyTransactionTemplate.execute(status -> {
+        return supportingRepeatableReadTemplate.execute(status -> {
             Optional<Film> optFilm = filmRepository.findById(filmId);
             Film film = optFilm.get();
             film.updateAverageScore();

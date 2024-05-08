@@ -1,0 +1,57 @@
+{
+  "components": [
+    {
+      "label": "Films",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_07v6wk9",
+        "columns": null
+      },
+      "id": "Field_0uf29iy",
+      "key": "write_review_film_list_textarea",
+      "readonly": true
+    },
+    {
+      "label": "Film id",
+      "type": "number",
+      "layout": {
+        "row": "Row_0ad8ixx",
+        "columns": null
+      },
+      "id": "Field_0zayijh",
+      "key": "film_id_write_review_number",
+      "validate": {
+        "min": 1
+      }
+    },
+    {
+      "height": 60,
+      "label": "Spacer",
+      "type": "spacer",
+      "layout": {
+        "row": "Row_0fp3kt5",
+        "columns": 6
+      },
+      "id": "Field_0i71xd4"
+    },
+    {
+      "action": "submit",
+      "label": "Write review!",
+      "type": "button",
+      "layout": {
+        "row": "Row_0fp3kt5",
+        "columns": null
+      },
+      "id": "Field_1vcxedl"
+    }
+  ],
+  "type": "default",
+  "id": "Form_1x13kn9",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}
