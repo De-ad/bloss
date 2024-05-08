@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "text": "# Здравствуйте, {{initiator}}, вашему вниманию все фильмы!",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1pswfl5",
+        "columns": null
+      },
+      "id": "Field_1cp6v0a"
+    },
+    {
+      "label": "Вот они какие фильмы озорные",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_01zkmfs",
+        "columns": null
+      },
+      "id": "Field_0wg0y8k",
+      "key": "film_viewer_textarea",
+      "readonly": true
+    }
+  ],
+  "type": "default",
+  "id": "Form_10szca6",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

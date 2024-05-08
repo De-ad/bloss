@@ -1,0 +1,89 @@
+{
+  "components": [
+    {
+      "label": "User id",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1esy1za",
+        "columns": null
+      },
+      "id": "Field_02sdy0f",
+      "key": "user_id_register",
+      "validate": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "First name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_125jjlh",
+        "columns": null
+      },
+      "id": "Field_10l6hgi",
+      "key": "fist_name_register",
+      "validate": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "Last name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0nb6dde",
+        "columns": null
+      },
+      "id": "Field_0wlp9su",
+      "key": "last_name_register",
+      "validate": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "Password",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_17at2nx",
+        "columns": null
+      },
+      "id": "Field_1ahocqx",
+      "key": "password_register",
+      "validate": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "height": 60,
+      "label": "Spacer",
+      "type": "spacer",
+      "layout": {
+        "row": "Row_0rwiiay",
+        "columns": 5
+      },
+      "id": "Field_06p43h8"
+    },
+    {
+      "action": "submit",
+      "label": "Regiter me!",
+      "type": "button",
+      "layout": {
+        "row": "Row_0rwiiay",
+        "columns": null
+      },
+      "id": "Field_1cnz98t"
+    }
+  ],
+  "type": "default",
+  "id": "Form_1b5chfy",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

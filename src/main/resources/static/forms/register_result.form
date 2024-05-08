@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "text": "# Результат регистрации",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_09swkpp",
+        "columns": null
+      },
+      "id": "Field_119z650"
+    },
+    {
+      "label": "",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_1hgg6bb",
+        "columns": null
+      },
+      "id": "Field_01qjubr",
+      "key": "textarea_register_result",
+      "readonly": true
+    }
+  ],
+  "type": "default",
+  "id": "Form_0q08s4n",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

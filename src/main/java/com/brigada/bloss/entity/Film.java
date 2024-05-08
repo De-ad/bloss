@@ -77,4 +77,20 @@ public class Film {
         return map;
     }
 
+    public String __repr__(boolean moderator) {
+        StringBuilder sB = new StringBuilder();
+        sB.append(id).append(") ").append(name).append("\n\n").append("- 💬[").append(description).append("]").append("\n\n").append("- ⨏ = ").append(averageScore).append("\n\n").append("- 🔄 reviews summy: ").append(reviews.size()).append("\n\n");
+
+        for (Review review: reviews) {
+            if (!moderator && !review.getStatus().equals(ReviewStatus.APPROVED))
+                continue;
+            if (!review.getStatus().equals(ReviewStatus.APPROVED))
+                sB.append("----> ").append(review.getScore()).append("️❌ : ").append(review.getText()).append("\n\n");
+            else
+                sB.append("----> ").append(review.getScore()).append("️⭐️ : ").append(review.getText()).append("\n\n");
+        }
+
+        return sB.toString();
+    }
+
 }
